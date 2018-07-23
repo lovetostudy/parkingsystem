@@ -3,15 +3,11 @@ package com.parkingsystem.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.parkingsystem.R;
-
-public class HomeActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-
-
+        setContentView(R.layout.activity_register);
     }
 }

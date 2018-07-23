@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/bt_getin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bt_leave"
+            android:text="@string/get_in"
+            android:textSize="25sp" />
+
+        <Button
+            android:id="@+id/bt_leave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bt_navigate"
+            android:layout_gravity="center"
+            android:text="@string/leave"
+            android:textSize="25sp" />
+
+        <Button
+            android:id="@+id/bt_navigate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/navigate"
+            android:textSize="25sp" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>
