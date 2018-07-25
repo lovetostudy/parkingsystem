@@ -1,6 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--<ListView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"></ListView>-->
+
+    <TextView
+        android:id="@+id/mine_tv_login"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="@string/login"
+        android:textSize="27sp" />
+
+    <TextView
+        android:id="@+id/information"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="@string/information"
+        android:textSize="27sp" />
+
+    <TextView
+        android:id="@+id/parking_record"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="@string/parking_record"
+        android:textSize="27sp" />
+
+    <TextView
+        android:id="@+id/topup_record"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="@string/topup_record"
+        android:textSize="27sp" />
+
+    <TextView
+        android:id="@+id/setting"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="@string/setting"
+        android:textSize="27sp" />
+
+    <TextView
+        android:id="@+id/log_out"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="@string/log_out"
+        android:textSize="27sp" />
+
 
 </LinearLayout>

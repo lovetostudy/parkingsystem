@@ -66,7 +66,7 @@ public class SplashActivity extends AppCompatActivity {
                 Message msg = Message.obtain();
                 msg.what = ENTER_HOME;
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(2000);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
