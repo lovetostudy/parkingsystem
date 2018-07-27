@@ -10,10 +10,8 @@ import android.os.Bundle;
 import android.view.animation.AlphaAnimation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.parkingsystem.R;
-import com.parkingsystem.utils.ToastUtils;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -79,7 +77,7 @@ public class SplashActivity extends AppCompatActivity {
     /**
      * 获取版本名称
      *
-     * @return 版本名称, 否则返回null
+     * @return 版本名称, 否则返回 null
      */
     public String getVersionName() {
         PackageManager packageManager = getPackageManager();

@@ -20,4 +20,6 @@
     <string name="login">用户登录</string>
     <string name="setting">设置</string>
     <string name="log_out">退出登录</string>
+    <string name="car_info">车位信息</string>
+    <string name="button_controller">快关控制</string>
 </resources>
