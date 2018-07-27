@@ -37,24 +37,21 @@ public class HomeActivity extends AppCompatActivity {
                 R.drawable.tab_location_normal,
                 R.drawable.tab_location_selected,
                 "车位信息",
-                LocationFragment.class,
-                R.color.colorTabText
+                LocationFragment.class
         ));
 
         mFragmentList.add(new TabItem(
                 R.drawable.tab_control_normal,
                 R.drawable.tab_control_selected,
                 "开关控制",
-                ControllerFragment.class,
-                R.color.colorTabText
+                ControllerFragment.class
         ));
 
         mFragmentList.add(new TabItem(
                 R.drawable.tab_mine_normal,
                 R.drawable.tab_mine_selected,
                 "个人信息",
-                MineFragment.class,
-                R.color.colorTabText
+                MineFragment.class
         ));
 
         mFragmentTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);

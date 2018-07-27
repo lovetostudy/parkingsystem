@@ -12,7 +12,6 @@ import com.parkingsystem.R;
 
 public class TabItem {
 
-    private final int mSelectTextcolor;
     private ImageView mIvTab;
 
     /**
@@ -40,12 +39,11 @@ public class TabItem {
     private View mTabView;
 
     public TabItem(int imageNormal, int imageSelected, String text,
-                   Class<? extends Fragment> fragmentClass, int selectTextcolor) {
+                   Class<? extends Fragment> fragmentClass) {
         this.imageNormal = imageNormal;
         this.imageSelected = imageSelected;
         this.tabText = text;
         this.fragmentClass = fragmentClass;
-        mSelectTextcolor = selectTextcolor;
     }
 
     public Class<? extends Fragment> getFragmentClass() {
@@ -66,7 +64,7 @@ public class TabItem {
      */
     public void setChecked(boolean checked) {
         if (checked) {
-            mTvTab.setTextColor(mSelectTextcolor);
+            mTvTab.setTextColor(Color.argb(255, 241, 99, 11));
             mIvTab.setImageResource(imageSelected);
         } else {
             mTvTab.setTextColor(Color.WHITE);
