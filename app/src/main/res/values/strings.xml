@@ -1,19 +1,19 @@
 <resources>
     <string name="app_name">停车场引导系统</string>
     <string name="version_name">版本名称</string>
-    <string name="get_in">进入</string>
-    <string name="leave">离开</string>
+    <string name="get_in">进 入</string>
+    <string name="leave">离 开</string>
     <string name="navigate">停车场导航</string>
     <string name="user_name">用户名:</string>
     <string name="user_rigister_hint">请输入用户名</string>
-    <string name="password">密码:</string>
+    <string name="password">密 码:</string>
     <string name="password_hint">密码不应小于6位</string>
     <string name="real_name">真实姓名:</string>
     <string name="id_card">身份证号:</string>
     <string name="car_card">车牌号:</string>
     <string name="phone">手机号:</string>
-    <string name="cancel">取消</string>
-    <string name="comfirm">确认</string>
+    <string name="cancel">取 消</string>
+    <string name="comfirm">确 认</string>
     <string name="information">个人信息</string>
     <string name="parking_record">停车记录</string>
     <string name="topup_record">充值记录</string>
@@ -22,4 +22,10 @@
     <string name="log_out">退出登录</string>
     <string name="car_info">车位信息</string>
     <string name="button_controller">快关控制</string>
+    <string name="login_username">用户名</string>
+    <string name="login_password">密 码</string>
+    <string name="login_back">返 回</string>
+    <string name="login_login">登 录</string>
+    <string name="login_register">还没有账号?  点击注册</string>
+    <string name="exit_message">再按一次退出程序</string>
 </resources>

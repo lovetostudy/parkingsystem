@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".activity.HomeActivity" />
         <activity android:name=".activity.RegisterActivity" />
-        <activity android:name=".activity.InfoActivity"></activity>
+        <activity android:name=".activity.InfoActivity" />
+        <activity android:name=".activity.LoginActivity" />
     </application>
 
 </manifest>

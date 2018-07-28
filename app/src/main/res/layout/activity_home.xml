@@ -30,22 +30,3 @@
     </LinearLayout>
 
 </android.support.v4.app.FragmentTabHost>
-
-<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:id="@android:id/tabhost"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:background="@android:color/white"-->
-    <!--tools:context=".activity.HomeActivity">-->
-
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:text="hello"-->
-        <!--android:textSize="100sp"-->
-        <!--android:id="@+id/tv_show"-->
-        <!--android:gravity="center"/>-->
-
-<!--</FrameLayout>-->

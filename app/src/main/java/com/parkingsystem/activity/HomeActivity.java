@@ -3,6 +3,7 @@ package com.parkingsystem.activity;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.TabHost;
 
 import com.parkingsystem.R;
@@ -10,7 +11,9 @@ import com.parkingsystem.fragment.ControllerFragment;
 import com.parkingsystem.fragment.LocationFragment;
 import com.parkingsystem.fragment.MineFragment;
 import com.parkingsystem.utils.TabItem;
+import com.parkingsystem.utils.ToastUtils;
 
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +22,8 @@ public class HomeActivity extends AppCompatActivity {
     private List<TabItem> mFragmentList;
 
     private FragmentTabHost mFragmentTabHost;
+
+    private long mExitTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,5 +98,24 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * 设置两次点击返回键退出程序
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN
+                && event.getRepeatCount() == 0) {
+            if (System.currentTimeMillis() - mExitTime > 2000) {
+                mExitTime = System.currentTimeMillis();
+                ToastUtils.show(HomeActivity.this, getString(R.string.exit_message));
+            } else {
+                finish();
+            }
+        }
+
+        return true;
     }
 }
