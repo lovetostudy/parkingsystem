@@ -14,18 +14,19 @@
     <string name="phone">手机号:</string>
     <string name="cancel">取 消</string>
     <string name="comfirm">确 认</string>
-    <string name="information">个人信息</string>
     <string name="parking_record">停车记录</string>
     <string name="topup_record">充值记录</string>
     <string name="login">用户登录</string>
     <string name="setting">设置</string>
     <string name="log_out">退出登录</string>
     <string name="car_info">车位信息</string>
-    <string name="button_controller">快关控制</string>
+    <string name="button_controller">开关控制</string>
+    <string name="information">个人信息</string>
     <string name="login_username">用户名</string>
     <string name="login_password">密 码</string>
     <string name="login_back">返 回</string>
     <string name="login_login">登 录</string>
     <string name="login_register">还没有账号?  点击注册</string>
     <string name="exit_message">再按一次退出程序</string>
+    <string name="user_register">用户注册</string>
 </resources>

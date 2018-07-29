@@ -19,7 +19,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="175dp"
         android:layout_gravity="center"
         android:orientation="vertical">
 
@@ -50,7 +50,6 @@
 
 
         <LinearLayout
-            android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center">
@@ -87,14 +86,14 @@
             android:layout_marginTop="30dp">
 
             <Button
-                android:id="@+id/bt_back"
+                android:id="@+id/bt__login_back"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="55dp"
                 android:text="@string/login_back" />
 
             <Button
-                android:id="@+id/bt_login"
+                android:id="@+id/bt_login_login"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

@@ -1,5 +1,6 @@
 package com.parkingsystem.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -9,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.parkingsystem.R;
 import com.parkingsystem.utils.ToastUtils;
@@ -20,6 +22,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText et_login_password;
     private TextInputLayout til_login_password;
     private TextInputLayout til_login_username;
+    private Button bt_login_back;
+    private TextView tv_rigister;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,7 +31,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         setEditListener();
-
+        setReturnListener();
+        setTextListener();
     }
 
     /**
@@ -38,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         til_login_username = (TextInputLayout) findViewById(R.id.til_login_username);
         til_login_password = (TextInputLayout) findViewById(R.id.til_login_password);
 
-        bt_login = (Button) findViewById(R.id.bt_login);
+        bt_login = (Button) findViewById(R.id.bt_login_login);
         bt_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,5 +128,33 @@ public class LoginActivity extends AppCompatActivity {
         if ("asdfg".equals(username) && "123456".equals(password)) {
             ToastUtils.show(LoginActivity.this, "login success");
         }
+    }
+
+    /**
+     * 设置返回按钮 返回主界面 (有bug)
+     */
+    private void setReturnListener() {
+        bt_login_back = (Button) findViewById(R.id.bt__login_back);
+
+        bt_login_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    /**
+     * 设置 textView 的注册点击事件
+     */
+    private void setTextListener() {
+        tv_rigister = (TextView) findViewById(R.id.tv_login_register);
+        tv_rigister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
