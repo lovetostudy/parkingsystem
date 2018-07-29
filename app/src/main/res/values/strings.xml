@@ -6,7 +6,7 @@
     <string name="navigate">停车场导航</string>
     <string name="user_name">用户名:</string>
     <string name="user_rigister_hint">请输入用户名</string>
-    <string name="password">密 码:</string>
+    <string name="password">密   码:</string>
     <string name="password_hint">密码不应小于6位</string>
     <string name="real_name">真实姓名:</string>
     <string name="id_card">身份证号:</string>
