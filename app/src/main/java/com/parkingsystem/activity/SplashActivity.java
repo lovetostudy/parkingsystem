@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.parkingsystem.R;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
     private TextView tv_version_name;
 

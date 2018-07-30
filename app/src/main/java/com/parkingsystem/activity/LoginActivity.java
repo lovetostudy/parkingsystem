@@ -1,7 +1,10 @@
 package com.parkingsystem.activity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -13,9 +16,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.parkingsystem.R;
+import com.parkingsystem.utils.CommonRequest;
+import com.parkingsystem.utils.CommonResponse;
+import com.parkingsystem.utils.ResponseHandler;
 import com.parkingsystem.utils.ToastUtils;
 
-public class LoginActivity extends AppCompatActivity {
+import static com.parkingsystem.utils.Constant.URL_LOGIN;
+
+public class LoginActivity extends BaseActivity {
+
+    private Context mContext;
 
     private Button bt_login;
     private EditText et_login_username;
@@ -24,11 +34,13 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout til_login_username;
     private Button bt_login_back;
     private TextView tv_rigister;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        mContext = this;
 
         setEditListener();
         setReturnListener();
@@ -123,13 +135,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void login(String username, String password) {
-
-        if ("asdfg".equals(username) && "123456".equals(password)) {
-            ToastUtils.show(LoginActivity.this, "login success");
-        }
-    }
-
     /**
      * 设置返回按钮 返回主界面 (有bug)
      */
@@ -152,9 +157,56 @@ public class LoginActivity extends AppCompatActivity {
         tv_rigister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                Intent intent = new Intent(mContext, RegisterActivity.class);
                 startActivity(intent);
             }
         });
+    }
+
+    /**
+     * 登录到服务器
+     * @param username
+     * @param password
+     */
+    private void login(final String username, String password) {
+
+        final CommonRequest request = new CommonRequest();
+
+        request.addRequestParam("name", username);
+        request.addRequestParam("password", password);
+        progressDialog = ProgressDialog.show(mContext, "请稍后...",
+                "正在登录");
+        sendHttpPostRequest(URL_LOGIN, request, new ResponseHandler() {
+
+            public void success(CommonResponse response) {
+                progressDialog.dismiss();
+                ToastUtils.show(mContext, "登录成功!" + username);
+
+                finish();
+            }
+
+            public void success1(CommonResponse response) {
+                progressDialog.dismiss();
+                ToastUtils.show(mContext, "登录失败,账户或密码错误!");
+            }
+
+            public void success2(CommonResponse response) {
+                progressDialog.dismiss();
+                ToastUtils.show(mContext, "登录失败,该用户未注册!");
+            }
+
+            @Override
+            public void fail(String failCode, String failMsg) {
+                progressDialog.dismiss();
+            }
+        }, true);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressDialog.dismiss();
+            }
+        }, 8000);
     }
 }

@@ -8,7 +8,7 @@ import android.widget.Button;
 import com.parkingsystem.R;
 import com.parkingsystem.utils.ToastUtils;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseActivity {
 
     private Button bt_register_back;
     private Button bt_register_confirm;

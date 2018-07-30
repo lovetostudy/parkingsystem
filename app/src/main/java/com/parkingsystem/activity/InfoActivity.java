@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.parkingsystem.R;
 
-public class InfoActivity extends AppCompatActivity {
+public class InfoActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

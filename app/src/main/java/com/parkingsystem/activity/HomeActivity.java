@@ -17,7 +17,7 @@ import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity {
 
     private List<TabItem> mFragmentList;
 
