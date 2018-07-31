@@ -169,7 +169,6 @@ public class LoginActivity extends BaseActivity {
      * @param password
      */
     private void login(final String username, String password) {
-
         final CommonRequest request = new CommonRequest();
 
         request.addRequestParam("name", username);
@@ -180,17 +179,17 @@ public class LoginActivity extends BaseActivity {
 
             public void success(CommonResponse response) {
                 progressDialog.dismiss();
-                ToastUtils.show(mContext, "登录成功!" + username);
+                ToastUtils.show(mContext, "登录成功! " + username + ",欢迎你回来!");
 
                 finish();
             }
 
-            public void success1(CommonResponse response) {
+            public void error1(CommonResponse response) {
                 progressDialog.dismiss();
                 ToastUtils.show(mContext, "登录失败,账户或密码错误!");
             }
 
-            public void success2(CommonResponse response) {
+            public void error2(CommonResponse response) {
                 progressDialog.dismiss();
                 ToastUtils.show(mContext, "登录失败,该用户未注册!");
             }

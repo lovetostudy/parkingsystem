@@ -89,9 +89,9 @@ public class HttpPostTask extends AsyncTask<String, String, String> {
                 if ("0".equals(response.getResCode())) { // 正确
                     rHandler.success(response);
                 } else if ("1".equals(response.getResCode())) {
-                    rHandler.success1(response);
+                    rHandler.error1(response);
                 } else if ("2".equals(response.getResCode())) {
-                    rHandler.success2(response);
+                    rHandler.error2(response);
                 } else {
                     rHandler.fail(response.getResCode(), response.getResMsg());
                 }

@@ -25,7 +25,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public void sendHttpPostRequest(String url, CommonRequest request,
                                      ResponseHandler responseHandler, boolean showLoadingDialog) {
-        new HttpPostTask(request, mHandler, responseHandler).equals(url);
+        new HttpPostTask(request, mHandler, responseHandler).execute(url);
         if (showLoadingDialog) {
 
         }
