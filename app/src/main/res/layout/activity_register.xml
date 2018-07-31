@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
+    <!--<android.support.v7.widget.Toolbar
         android:id="@+id/tb_register"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -184,7 +184,88 @@
             android:layout_marginLeft="30dp"
             android:text="@string/comfirm"
             android:textSize="25sp" />
-    </LinearLayout>
+    </LinearLayout>-->
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:text="请用户填写以下信息以完成注册"
+                android:textSize="15dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="330dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/user_name_ed_register"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:hint="用户名不少于3位"
+                    android:textSize="13dp" />
+
+
+                <EditText
+                    android:id="@+id/user_password_ed_register"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:hint="密码不少于6位"
+                    android:inputType="textPassword"
+                    android:textSize="13dp" />
+
+
+                <EditText
+                    android:id="@+id/user_password_ed_re_register"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:hint="重复密码"
+                    android:inputType="textPassword"
+                    android:textSize="13dp" />
+
+
+                <EditText
+                    android:id="@+id/user_mail_register_ed"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:hint="邮箱"
+                    android:inputType="textEmailAddress"
+                    android:textSize="13dp" />
+
+
+                <EditText
+                    android:id="@+id/use_phone_ed"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:hint="手机号"
+                    android:inputType="number"
+                    android:maxLength="11"
+                    android:textSize="13dp" />
+
+                <Button
+                    android:id="@+id/register_button_register"
+                    android:layout_width="245dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/use_phone_ed"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:text="点    击    注    册" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
