@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<android.support.v7.widget.Toolbar
+    <android.support.v7.widget.Toolbar
         android:id="@+id/tb_register"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -29,165 +29,224 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="10dp">
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_user_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/user_name"
-            android:textAlignment="center"
-            android:textSize="20sp" />
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:paddingTop="10dp">
 
-        <EditText
-            android:id="@+id/et_user_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:hint="@string/user_rigister_hint" />
-    </LinearLayout>
+           <TextView
+               android:id="@+id/tv_register_user_name"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:maxLines="1"
+               android:singleLine="true"
+               android:text="@string/user_name"
+               android:textAlignment="center"
+               android:textSize="20sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="10dp">
+           <EditText
+               android:id="@+id/et_register_user_name"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_weight="3"
+               android:hint="@string/user_rigister_hint"
+               android:maxLines="1"
+               android:singleLine="true" />
+       </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_password"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/password"
-            android:textAlignment="center"
-            android:textSize="20sp" />
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:paddingTop="10dp">
 
-        <EditText
-            android:id="@+id/et_password"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:hint="@string/password_hint" />
-    </LinearLayout>
+           <TextView
+               android:id="@+id/tv_register_password"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:text="@string/password"
+               android:textAlignment="center"
+               android:textSize="20sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="10dp">
+           <EditText
+               android:id="@+id/et_register_password"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_weight="3"
+               android:hint="@string/password_hint"
+               android:inputType="textPassword"
+               android:maxLines="1"
+               android:singleLine="true" />
+       </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_real_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/real_name"
-            android:textAlignment="center"
-            android:textSize="20sp" />
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:paddingTop="10dp">
 
-        <EditText
-            android:id="@+id/et_real_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3" />
-    </LinearLayout>
+           <TextView
+               android:id="@+id/tv_register_re_password"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:text="@string/comfirm_password"
+               android:textAlignment="center"
+               android:textSize="20sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="10dp">
+           <EditText
+               android:id="@+id/et_register_re_password"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_weight="3"
+               android:hint="@string/repeat_password"
+               android:inputType="textPassword"
+               android:maxLines="1"
+               android:singleLine="true" />
+       </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_id_card"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/id_card"
-            android:textAlignment="center"
-            android:textSize="20sp" />
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:paddingTop="10dp">
 
-        <EditText
-            android:id="@+id/et_id_card"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3" />
-    </LinearLayout>
+           <TextView
+               android:id="@+id/tv_register_real_name"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:text="@string/real_name"
+               android:textAlignment="center"
+               android:textSize="20sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="10dp">
+           <EditText
+               android:id="@+id/et_register_real_name"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_weight="3"
+               android:maxLines="1"
+               android:singleLine="true" />
+       </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_car_card"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/car_card"
-            android:textAlignment="center"
-            android:textSize="20sp" />
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="10dp"
+           android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/et_car_card"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3" />
-    </LinearLayout>
+           <RadioGroup
+               android:id="@+id/rg_register_gender"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:gravity="center"
+               android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="10dp">
+               <RadioButton
+                   android:id="@+id/rb_register_male"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginRight="20dp"
+                   android:checked="true"
+                   android:text="@string/male" />
 
-        <TextView
-            android:id="@+id/tv_phone"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/phone"
-            android:textAlignment="center"
-            android:textSize="20sp" />
+               <RadioButton
+                   android:id="@+id/rb_register_female"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="20dp"
+                   android:checked="false"
+                   android:text="@string/female" />
 
-        <EditText
-            android:id="@+id/et_phone"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3" />
-    </LinearLayout>
+           </RadioGroup>
+       </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal">
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:paddingTop="10dp">
 
-        <Button
-            android:id="@+id/bt_register_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="90dp"
-            android:text="@string/cancel"
-            android:textSize="25sp" />
+           <TextView
+               android:id="@+id/tv_register_car_card"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:text="@string/car_card"
+               android:textAlignment="center"
+               android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/bt_register_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:text="@string/comfirm"
-            android:textSize="25sp" />
-    </LinearLayout>-->
+           <EditText
+               android:id="@+id/et_register_car_card"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_weight="3"
+               android:maxLines="1"
+               android:singleLine="true" />
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:paddingTop="10dp">
+
+           <TextView
+               android:id="@+id/tv_register_phone"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:text="@string/phone"
+               android:textAlignment="center"
+               android:textSize="20sp" />
+
+           <EditText
+               android:id="@+id/et_register_phone"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_weight="3"
+               android:maxLines="1"
+               android:singleLine="true" />
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="30dp"
+           android:orientation="horizontal">
+
+           <Button
+               android:id="@+id/bt_register_cancel"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="90dp"
+               android:text="@string/cancel"
+               android:textSize="25sp" />
+
+           <Button
+               android:id="@+id/bt_register_confirm"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="30dp"
+               android:text="@string/comfirm"
+               android:textSize="25sp" />
+       </LinearLayout>
+
+   </LinearLayout>
 
 
-    <ScrollView
+
+
+
+    <!--<ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -266,6 +325,6 @@
 
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </ScrollView>-->
 
 </LinearLayout>

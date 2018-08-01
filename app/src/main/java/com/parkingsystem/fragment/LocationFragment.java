@@ -14,9 +14,6 @@ import com.parkingsystem.R;
 
 public class LocationFragment extends Fragment {
 
-    public LocationFragment() {
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {

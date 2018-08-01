@@ -19,6 +19,7 @@ public class User {
 
     private double user_balance;    // 用户余额
 
+
     public String getUser_id() {
         return user_id;
     }

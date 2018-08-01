@@ -21,6 +21,9 @@ import com.parkingsystem.utils.CommonResponse;
 import com.parkingsystem.utils.ResponseHandler;
 import com.parkingsystem.utils.ToastUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import static com.parkingsystem.utils.Constant.URL_LOGIN;
 
 public class LoginActivity extends BaseActivity {
@@ -52,8 +55,8 @@ public class LoginActivity extends BaseActivity {
      */
     private void setEditListener() {
 
-        til_login_username = (TextInputLayout) findViewById(R.id.til_login_username);
-        til_login_password = (TextInputLayout) findViewById(R.id.til_login_password);
+        /*til_login_username = (TextInputLayout) findViewById(R.id.til_login_username);
+        til_login_password = (TextInputLayout) findViewById(R.id.til_login_password);*/
 
         bt_login = (Button) findViewById(R.id.bt_login_login);
         bt_login.setOnClickListener(new View.OnClickListener() {
@@ -61,13 +64,13 @@ public class LoginActivity extends BaseActivity {
             public void onClick(View v) {
                 et_login_username = (EditText) findViewById(R.id.et_login_username);
                 et_login_password = (EditText) findViewById(R.id.et_login_password);
-                til_login_username.setHint("用户名");
-                til_login_password.setHint("密码");
+                /*til_login_username.setHint("用户名");
+                til_login_password.setHint("密码");*/
                 final String username = et_login_username.getText().toString();
                 final String password = et_login_password.getText().toString();
 
                 // 检查用户名
-                et_login_username.addTextChangedListener(new TextWatcher() {
+                /*et_login_username.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -75,8 +78,8 @@ public class LoginActivity extends BaseActivity {
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        if (s.length() < 4) {
-                            til_login_username.setError("用户名不足四位");
+                        if (s.length() < 2) {
+                            til_login_username.setError("用户名不足二位");
                             til_login_username.setEnabled(true);
                         } else {
                             til_login_username.setEnabled(false);
@@ -92,10 +95,10 @@ public class LoginActivity extends BaseActivity {
                             til_login_username.setEnabled(false);
                         }
                     }
-                });
+                });*/
 
                 // 检查密码
-                et_login_password.addTextChangedListener(new TextWatcher() {
+                /*et_login_password.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -120,16 +123,18 @@ public class LoginActivity extends BaseActivity {
                             til_login_username.setEnabled(false);
                         }
                     }
-                });
+                });*/
 
                 if (!"".equals(username) && !"".equals(password)) {
-                    if (username.length() < 4 && password.length() < 6) {
-                        ToastUtils.show(LoginActivity.this, "用户名或密码格式不正确");
+                    if (username.length() < 1) {
+                        ToastUtils.show(mContext, "用户名格式不正确,");
+                    } else if (password.length() < 6) {
+                        ToastUtils.show(mContext, "密码格式不正确");
                     } else {
                         login(username, password);
                     }
                 } else {
-                    ToastUtils.show(LoginActivity.this, "用户名或密码不能为空");
+                    ToastUtils.show(mContext, "用户名或密码不能为空");
                 }
             }
         });
@@ -165,6 +170,7 @@ public class LoginActivity extends BaseActivity {
 
     /**
      * 登录到服务器
+     *
      * @param username
      * @param password
      */
@@ -173,8 +179,8 @@ public class LoginActivity extends BaseActivity {
 
         request.addRequestParam("name", username);
         request.addRequestParam("password", password);
-        progressDialog = ProgressDialog.show(mContext, "请稍后...",
-                "正在登录");
+        progressDialog = ProgressDialog.show(mContext, "请稍后",
+                "正在登录...");
         sendHttpPostRequest(URL_LOGIN, request, new ResponseHandler() {
 
             public void success(CommonResponse response) {

@@ -5,7 +5,7 @@
     <string name="leave">离 开</string>
     <string name="navigate">停车场导航</string>
     <string name="user_name">用户名:</string>
-    <string name="user_rigister_hint">请输入用户名</string>
+    <string name="user_rigister_hint">请输入用户名,且不少于2位</string>
     <string name="password">密   码:</string>
     <string name="password_hint">密码不应小于6位</string>
     <string name="real_name">真实姓名:</string>
@@ -29,4 +29,8 @@
     <string name="login_register">还没有账号?  点击注册</string>
     <string name="exit_message">再按一次退出程序</string>
     <string name="user_register">用户注册</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
+    <string name="repeat_password">请再次输入密码</string>
+    <string name="comfirm_password">确认密码</string>
 </resources>
