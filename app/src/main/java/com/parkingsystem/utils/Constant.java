@@ -4,6 +4,8 @@ public class Constant {
 
     public static final int HANDLER_HTTP_RECIVE_FAIL = 404;
     public static final int HANDLER_HTTP_SEND_FAIL = 403;
+    public static final int OK = 1;
+
 
 
     /* 云 */
@@ -20,6 +22,7 @@ public class Constant {
     public static String URL = "http://10.168.14.93:8080/tingchechang1.1";
     public static String URL_LOGIN = URL + "/checkLodingforAndroid";
     public static String URL_REGISTER = URL + "/checkLodingforAndroid1";
+    public static String URL_USER_INFO = URL + "/checkLodingforAndroid2";
 
 
 }

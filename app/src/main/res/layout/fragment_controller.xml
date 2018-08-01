@@ -35,21 +35,21 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/bt_getin"
+            android:id="@+id/bt_controller_enter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/get_in"
             android:textSize="25sp" />
 
         <Button
-            android:id="@+id/bt_leave"
+            android:id="@+id/bt_controller_leave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/leave"
             android:textSize="25sp" />
 
         <Button
-            android:id="@+id/bt_navigate"
+            android:id="@+id/bt_controller_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/navigate"

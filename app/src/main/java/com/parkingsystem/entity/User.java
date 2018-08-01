@@ -5,11 +5,7 @@ package com.parkingsystem.entity;
  */
 public class User {
 
-    private String user_id;         // 用户id
-
     private String user_name;       // 用户名
-
-    private String user_password;   // 用户密码
 
     private String user_realname;   // 用户真实姓名
 
@@ -19,14 +15,8 @@ public class User {
 
     private double user_balance;    // 用户余额
 
+    private String phone;           // 用户手机号
 
-    public String getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
-    }
 
     public String getUser_name() {
         return user_name;
@@ -34,14 +24,6 @@ public class User {
 
     public void setUser_name(String user_name) {
         this.user_name = user_name;
-    }
-
-    public String getUser_password() {
-        return user_password;
-    }
-
-    public void setUser_password(String user_password) {
-        this.user_password = user_password;
     }
 
     public String getUser_realname() {
@@ -74,5 +56,13 @@ public class User {
 
     public void setUser_balance(double user_balance) {
         this.user_balance = user_balance;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.parkingsystem.R;
 import com.parkingsystem.activity.HomeActivity;
+import com.parkingsystem.activity.InfoActivity;
 import com.parkingsystem.activity.LoginActivity;
 import com.parkingsystem.entity.Mine;
 import com.parkingsystem.utils.MineAdapter;
@@ -156,7 +157,8 @@ public class MineFragment extends Fragment {
      * 进入个人信息界面
      */
     private void enterUserInfo() {
-        ToastUtils.show(getContext(), "enterUserInfo OK");
+        Intent intent = new Intent(getActivity(), InfoActivity.class);
+        startActivity(intent);
     }
 
     /**
