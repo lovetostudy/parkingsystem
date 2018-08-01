@@ -146,7 +146,16 @@ public class RegisterActivity extends BaseActivity {
 
             @Override
             public void error1(CommonResponse response) {
-
+                final AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
+                alertDialog.setTitle("提示信息");
+                alertDialog.setMessage("注册失败,用户已存在");
+                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确   定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        alertDialog.dismiss();
+                    }
+                });
+                alertDialog.show();
             }
 
             @Override
