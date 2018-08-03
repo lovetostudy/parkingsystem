@@ -15,7 +15,7 @@ import com.parkingsystem.utils.ToastUtils;
 
 public class BaseActivity extends AppCompatActivity {
 
-    private Context mContext = null;
+    private static Context mContext;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -22,7 +22,7 @@ public class CommonResponse {
     private String resCode = "";
 
     /**
-     * 交易失败说明
+     * 交易状态说明
      */
     private String resMsg = "";
 
@@ -65,6 +65,12 @@ public class CommonResponse {
             JSONObject property = root.optJSONObject("property");
             if (property != null) {
                 parseProperty(property, propertyMap);
+            }
+
+            JSONArray list = root.optJSONArray("list");
+            if (list != null) {
+                /*LogUtil.logList(list.toString());*/
+                parseList(list);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -122,6 +128,7 @@ public class CommonResponse {
     }
 
     public ArrayList<HashMap<String, String>> getDataList() {
+        LogUtil.logArrayList(mapList.toString());
         return mapList;
     }
 }

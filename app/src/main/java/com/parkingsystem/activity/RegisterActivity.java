@@ -74,7 +74,7 @@ public class RegisterActivity extends BaseActivity {
                 String real_name = et_register_real_name.getText().toString();
                 String car_card = et_register_car_card.getText().toString();
                 String phone = et_register_phone.getText().toString();
-                String gender = null;
+                String gender = "";
 
                 for (int i = 0; i < rg_register_gender.getChildCount(); i++) {
                     RadioButton rb_gender = (RadioButton) rg_register_gender.getChildAt(i);

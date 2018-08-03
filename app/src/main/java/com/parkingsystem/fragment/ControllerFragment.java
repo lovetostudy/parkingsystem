@@ -1,9 +1,10 @@
 package com.parkingsystem.fragment;
 
 
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,83 +15,277 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.parkingsystem.R;
+import com.parkingsystem.activity.BaseActivity;
+import com.parkingsystem.activity.LoginActivity;
+import com.parkingsystem.utils.CommonRequest;
+import com.parkingsystem.utils.CommonResponse;
+import com.parkingsystem.utils.ResponseHandler;
 import com.parkingsystem.utils.ToastUtils;
 
+import static com.parkingsystem.utils.Constant.URL_COTROLLER_ENTER;
+import static com.parkingsystem.utils.Constant.URL_COTROLLER_LEAVE;
+
+
 public class ControllerFragment extends Fragment {
+
+    private static final String ENTER = "0";
+    private static final String LEVAE = "1";
+    private static final String NAVIGATION = "2";
 
     private Button bt_controller_enter;
     private Button bt_controller_leave;
     private Button bt_controller_navigation;
+    String userName = "";
+    private CommonRequest request = new CommonRequest();
+    private View view;
+
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_controller, container, false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_controller, container, false);
+
+
+        initData();
+        enterButtonListner();
+        leaveButtonListener();
+        navigationButtonListener();
+
+        return view;
+    }
+
+    /**
+     * 初始化数据
+     */
+    private void initData() {
 
         bt_controller_enter = (Button) view.findViewById(R.id.bt_controller_enter);
         bt_controller_leave = (Button) view.findViewById(R.id.bt_controller_leave);
         bt_controller_navigation = (Button) view.findViewById(R.id.bt_controller_navigation);
+        queryUser();    // 未完成
+        userName = "刘一";
+        request.addRequestParam("name", userName);
+    }
 
-
+    /**
+     * 进入按钮点击事件
+     */
+    private void enterButtonListner() {
         bt_controller_enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AlertDialog enterDialog = new AlertDialog.Builder(getContext()).create();
-                enterDialog.setTitle("停车提醒: ");
-                enterDialog.setMessage("进入停车场?");
-                enterDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确  定",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                enterDialog.dismiss();
-                                ToastUtils.show(getContext(), "进入停车场");
-                            }
-                        });
-                enterDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取  消",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                enterDialog.dismiss();
-                                ToastUtils.show(getContext(), "取消成功");
-                            }
-                        });
-                enterDialog.show();
+
+                request.setRequestCode(ENTER);
+
+                if (!"".equals(userName)) {
+                    final AlertDialog enterDialog = new AlertDialog.Builder(getContext()).create();
+                    enterDialog.setTitle("停车提醒: ");
+                    enterDialog.setMessage("进入停车场?");
+                    enterDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确  定",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    enterDialog.dismiss();
+                                    if (getActivity() instanceof BaseActivity) {
+                                        ((BaseActivity)getActivity()).sendHttpPostRequest(URL_COTROLLER_ENTER, request,
+                                                new ResponseHandler() {
+                                                    @Override
+                                                    public void success(CommonResponse response) {
+
+                                                        bt_controller_enter.setTextColor(Color.RED);
+                                                        bt_controller_enter.setEnabled(false);
+
+                                                        ToastUtils.show(getActivity(), "开门成功");
+                                                        ToastUtils.show(getContext(), "进入停车场");
+                                                    }
+
+                                                    @Override
+                                                    public void error1(CommonResponse response) {
+                                                        ToastUtils.show(getActivity(),"你已在停车场中,请勿重复操作!");
+                                                    }
+
+                                                    @Override
+                                                    public void error2(CommonResponse response) {
+
+                                                    }
+
+                                                    @Override
+                                                    public void fail(String failCode, String failMsg) {
+                                                        ToastUtils.show(getActivity(),"开门失败,请重试!");
+                                                    }
+                                                }, false);
+                                    }
+                                }
+                            });
+                    enterDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取  消",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    enterDialog.dismiss();
+                                    ToastUtils.show(getContext(), "取消成功");
+                                }
+                            });
+                    enterDialog.show();
+                } else {
+                    final AlertDialog loginDialog = new AlertDialog.Builder(getContext()).create();
+                    loginDialog.setTitle("登录提醒: ");
+                    loginDialog.setMessage("您还未登录,是否先登录?");
+                    loginDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确  定",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    loginDialog.dismiss();
+                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+                    loginDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取  消",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    loginDialog.dismiss();
+                                }
+                            });
+                    loginDialog.show();
+                }
+
+
+
             }
         });
+    }
 
+    /**
+     * 离开按钮点击事件
+     */
+    private void leaveButtonListener() {
         bt_controller_leave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AlertDialog leaveDialog = new AlertDialog.Builder(getContext()).create();
-                leaveDialog.setTitle("离开提醒: ");
-                leaveDialog.setMessage("结账离开停车场?");
-                leaveDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确  定",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                leaveDialog.dismiss();
-                                ToastUtils.show(getContext(), "结账");
-                                ToastUtils.show(getContext(), "离开停车场");
-                            }
-                        });
-                leaveDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取  消",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                leaveDialog.dismiss();
-                                ToastUtils.show(getContext(), "取消成功");
-                            }
-                        });
-                leaveDialog.show();
+
+                if (!"".equals(userName)) {
+
+                    request.setRequestCode(LEVAE);
+
+                    final AlertDialog leaveDialog = new AlertDialog.Builder(getContext()).create();
+                    leaveDialog.setTitle("离开提醒: ");
+                    leaveDialog.setMessage("结账离开停车场?");
+                    leaveDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确  定",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    leaveDialog.dismiss();
+                                    if (getActivity() instanceof BaseActivity) {
+                                        ((BaseActivity)getActivity()).sendHttpPostRequest(URL_COTROLLER_LEAVE, request,
+                                                new ResponseHandler() {
+                                                    @Override
+                                                    public void success(CommonResponse response) {
+
+                                                        bt_controller_enter.setTextColor(Color.BLACK);
+                                                        bt_controller_enter.setEnabled(true);
+
+                                                        ToastUtils.show(getContext(), "结账");
+                                                        ToastUtils.show(getContext(), "离开停车场");
+                                                    }
+
+                                                    @Override
+                                                    public void error1(CommonResponse response) {
+
+                                                    }
+
+                                                    @Override
+                                                    public void error2(CommonResponse response) {
+
+                                                    }
+
+                                                    @Override
+                                                    public void fail(String failCode, String failMsg) {
+                                                        ToastUtils.show(getActivity(), "结账失败,请");
+                                                    }
+                                                }, false);
+                                    }
+                                }
+                            });
+                    leaveDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取  消",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    leaveDialog.dismiss();
+                                    ToastUtils.show(getContext(), "取消成功");
+                                }
+                            });
+                    leaveDialog.show();
+                } else {
+                    final AlertDialog loginDialog = new AlertDialog.Builder(getContext()).create();
+                    loginDialog.setTitle("登录提醒: ");
+                    loginDialog.setMessage("您还未登录,是否先登录?");
+                    loginDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确  定",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    loginDialog.dismiss();
+                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+                    loginDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取  消",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    loginDialog.dismiss();
+                                }
+                            });
+                    loginDialog.show();
+                }
+
             }
         });
 
+    }
+
+    /**
+     * 导航按钮点击事件
+     */
+    private void navigationButtonListener() {
         bt_controller_navigation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.show(getContext(), "导航成功");
+
+                if (!"".equals(userName)) {
+                    ToastUtils.show(getContext(), "导航中...");
+                } else {
+                    final AlertDialog loginDialog = new AlertDialog.Builder(getContext()).create();
+                    loginDialog.setTitle("登录提醒: ");
+                    loginDialog.setMessage("您还未登录,是否先登录?");
+                    loginDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确  定",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    loginDialog.dismiss();
+                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+                    loginDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取  消",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    loginDialog.dismiss();
+                                }
+                            });
+                    loginDialog.show();
+                }
+
             }
         });
-        return view;
+    }
+
+
+    /**
+     * 查询本地用户信息
+     */
+    private void queryUser() {
+
     }
 }

@@ -19,6 +19,7 @@ import com.parkingsystem.R;
 import com.parkingsystem.activity.HomeActivity;
 import com.parkingsystem.activity.InfoActivity;
 import com.parkingsystem.activity.LoginActivity;
+import com.parkingsystem.activity.ParkingRecordActivity;
 import com.parkingsystem.entity.Mine;
 import com.parkingsystem.utils.MineAdapter;
 import com.parkingsystem.utils.ToastUtils;
@@ -28,12 +29,12 @@ import java.util.List;
 
 public class MineFragment extends Fragment {
 
-    private final int USER_LOGIN = 0;
-    private final int USER_INFO = 1;
-    private final int PARKING_RECORD = 2;
-    private final int TOPUP_RECORD = 3;
-    private final int SETTING = 4;
-    private final int USER_LOGOUT = 5;
+    private static final int USER_LOGIN = 0;
+    private static final int USER_INFO = 1;
+    private static final int PARKING_RECORD = 2;
+    private static final int TOPUP_RECORD = 3;
+    private static final int SETTING = 4;
+    private static final int USER_LOGOUT = 5;
 
     private static int CREATED = 0;
 
@@ -74,11 +75,11 @@ public class MineFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mine, container, false);
-
-        initMine();     // 初始化 mineList 数据
         MineAdapter adapter = new MineAdapter(getContext(), R.layout.mine_item, mineList);
         ListView listView = (ListView) view.findViewById(R.id.mine_list_view);
         listView.setAdapter(adapter);
+
+        initMine();     // 初始化 mineList 数据
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view1, int position, long id) {
@@ -165,6 +166,11 @@ public class MineFragment extends Fragment {
      * 进入停车记录界面
      */
     private void enterParkingRecord() {
+
+        Intent intent = new Intent(getActivity(), ParkingRecordActivity.class);
+        startActivity(intent
+        );
+
         ToastUtils.show(getContext(), "enterParkingRecord OK");
     }
 

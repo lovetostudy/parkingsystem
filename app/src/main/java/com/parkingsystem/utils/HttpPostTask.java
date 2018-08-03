@@ -90,17 +90,17 @@ public class HttpPostTask extends AsyncTask<String, String, String> {
                 /* 交易成功时需要在处理返回结果时手动关闭 Loading 对话框,
                 可以灵活处理连续请求对个接口时 Loading 框不断弹出,关闭的情况 */
 
-                CommonResponse response1 = new CommonResponse(result);
+                CommonResponse response = new CommonResponse(result);
 
                 // 这里 response.getResCode() 为多少表示业务完成也是和服务器约定好的
-                if ("0".equals(response1.getResCode())) {
-                    rHandler.success(response1);
-                } else if ("1".equals(response1.getResCode())) {
-                    rHandler.error1(response1);
-                } else if ("2".equals(response1.getResCode())) {
-                    rHandler.error2(response1);
+                if ("0".equals(response.getResCode())) {
+                    rHandler.success(response);
+                } else if ("1".equals(response.getResCode())) {
+                    rHandler.error1(response);
+                } else if ("2".equals(response.getResCode())) {
+                    rHandler.error2(response);
                 } else {
-                    rHandler.fail(response1.getResCode(), response1.getResMsg());
+                    rHandler.fail(response.getResCode(), response.getResMsg());
                 }
 
             }
