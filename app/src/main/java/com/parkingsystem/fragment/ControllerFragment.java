@@ -70,7 +70,8 @@ public class ControllerFragment extends Fragment {
             bt_controller_enter.setText("已进入停车场");
             bt_controller_enter.setTextColor(Color.RED);
             bt_controller_enter.setEnabled(false);
-        } else {
+        }
+        if ("0".equals(FLAG)){
             bt_controller_leave.setText("未停车");
             bt_controller_leave.setTextColor(Color.RED);
             bt_controller_leave.setEnabled(false);
@@ -105,7 +106,7 @@ public class ControllerFragment extends Fragment {
                                                     @Override
                                                     public void success(CommonResponse response) {
 
-                                                        queryUtils.updateCarState(1, userName);
+                                                        queryUtils.updateCarState("1", userName);
 
                                                         bt_controller_enter.setText("已进入停车场");
                                                         bt_controller_enter.setTextColor(Color.RED);
@@ -113,6 +114,7 @@ public class ControllerFragment extends Fragment {
                                                         bt_controller_leave.setText("结账离开");
                                                         bt_controller_leave.setTextColor(Color.BLACK);
                                                         bt_controller_leave.setEnabled(true);
+
                                                         ToastUtils.show(getActivity(), "开门成功");
                                                         ToastUtils.show(getContext(), "进入停车场");
                                                     }
@@ -179,7 +181,7 @@ public class ControllerFragment extends Fragment {
         bt_controller_leave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                QueryUtils queryUtils = new QueryUtils(getContext());
+                final QueryUtils queryUtils = new QueryUtils(getContext());
                 userName = queryUtils.queryUserName();
 
                 if (!"".equals(userName)) {
@@ -200,6 +202,7 @@ public class ControllerFragment extends Fragment {
                                                     @Override
                                                     public void success(CommonResponse response) {
 
+                                                        queryUtils.updateCarState("0", userName);
                                                         bt_controller_enter.setText("进入");
                                                         bt_controller_enter.setTextColor(Color.BLACK);
                                                         bt_controller_enter.setEnabled(true);
@@ -273,7 +276,7 @@ public class ControllerFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (!"".equals(userName)) {
+                /*if (!"".equals(userName)) {
                     ToastUtils.show(getContext(), "导航中...");
                 } else {
                     final AlertDialog loginDialog = new AlertDialog.Builder(getContext()).create();
@@ -296,7 +299,7 @@ public class ControllerFragment extends Fragment {
                                 }
                             });
                     loginDialog.show();
-                }
+                }*/
 
             }
         });

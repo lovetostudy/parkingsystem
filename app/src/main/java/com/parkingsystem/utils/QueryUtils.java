@@ -172,7 +172,7 @@ public class QueryUtils {
      * @param username
      * @return
      */
-    public int updateCarState(int state, String username) {
+    public int updateCarState(String state, String username) {
         SQLiteDatabase database = parkingSqliteOpenHelper.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("car_state", state);
