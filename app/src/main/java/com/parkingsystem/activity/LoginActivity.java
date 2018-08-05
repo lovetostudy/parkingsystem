@@ -16,8 +16,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.parkingsystem.R;
+import com.parkingsystem.entity.User;
+import com.parkingsystem.logs.LogUtil;
 import com.parkingsystem.utils.CommonRequest;
 import com.parkingsystem.utils.CommonResponse;
+import com.parkingsystem.utils.QueryUtils;
 import com.parkingsystem.utils.ResponseHandler;
 import com.parkingsystem.utils.ToastUtils;
 
@@ -38,6 +41,7 @@ public class LoginActivity extends BaseActivity {
     private Button bt_login_back;
     private TextView tv_rigister;
     private ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -175,6 +179,7 @@ public class LoginActivity extends BaseActivity {
      * @param password
      */
     private void login(final String username, String password) {
+        final QueryUtils queryUtils = new QueryUtils(mContext);
         final CommonRequest request = new CommonRequest();
 
         request.addRequestParam("name", username);
@@ -182,10 +187,28 @@ public class LoginActivity extends BaseActivity {
         progressDialog = ProgressDialog.show(mContext, "请稍后",
                 "正在登录...");
         sendHttpPostRequest(URL_LOGIN, request, new ResponseHandler() {
-
             public void success(CommonResponse response) {
+                if (response != null) {
+                    User user = new User();
+                    user.username = response.getDataList().get(0).get("user_name");
+                    user.realname = response.getDataList().get(0).get("user_realname");
+                    user.gender = response.getDataList().get(0).get("user_gender");
+                    user.card = response.getDataList().get(0).get("user_card");
+                    user.phone = response.getDataList().get(0).get("user_phone");
+                    user.balance = response.getDataList().get(0).get("user_balance");
+                    user.carState = response.getDataList().get(0).get("user_card_state");
+
+                    boolean result = queryUtils.addUserInfo(user);
+                    if (result = true) {
+                        ToastUtils.show(mContext, "OK");
+                    } else {
+                        ToastUtils.show(mContext, "WRONG");
+                    }
+                }
                 progressDialog.dismiss();
-                ToastUtils.show(mContext, "登录成功! " + username + ",欢迎你回来!");
+
+                String name = queryUtils.queryUserName();
+                ToastUtils.show(mContext, "登录成功! " + name + ",欢迎你回来!");
 
                 finish();
             }

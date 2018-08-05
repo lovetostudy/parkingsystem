@@ -17,14 +17,19 @@ public class Constant {
     public static String URL_LOGIN = URL + "/login.do";
     public static String URL_REGISTER = URL + "/regist.do";*/
 
-
-    /* 项目本地 */
-    /*public static String URL = "http://10.168.14.93:8080/tingchechang1.1";*/
-
-    /* 项目云 */
-    public static String URL = "http://119.29.248.139:8080/tingchechang1.1";
-
     /* 我的,本地 */
+    /*public static String URL = "http://10.168.14.28:8080/tingchechang1.1";*/
+
+
+
+
+    /* Parking 项目 WU 本地 */
+    public static String URL = "http://10.168.14.93:8080/tingchechang1.1";
+
+    /* Parking 项目云 */
+    /*public static String URL = "http://119.29.248.139:8080/tingchechang1.1";*/
+
+    /* Parking 项目 Me 本地 */
     /*public static String URL = "http://10.168.14.28:8080/tingchechang1.1";*/
 
     /* 通用路径 */

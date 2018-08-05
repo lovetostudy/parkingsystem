@@ -19,6 +19,7 @@ import com.parkingsystem.activity.BaseActivity;
 import com.parkingsystem.activity.LoginActivity;
 import com.parkingsystem.utils.CommonRequest;
 import com.parkingsystem.utils.CommonResponse;
+import com.parkingsystem.utils.QueryUtils;
 import com.parkingsystem.utils.ResponseHandler;
 import com.parkingsystem.utils.ToastUtils;
 
@@ -31,6 +32,7 @@ public class ControllerFragment extends Fragment {
     private static final String ENTER = "0";
     private static final String LEVAE = "1";
     private static final String NAVIGATION = "2";
+    private String FLAG;
 
     private Button bt_controller_enter;
     private Button bt_controller_leave;
@@ -45,7 +47,6 @@ public class ControllerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_controller, container, false);
-
 
         initData();
         enterButtonListner();
@@ -63,9 +64,17 @@ public class ControllerFragment extends Fragment {
         bt_controller_enter = (Button) view.findViewById(R.id.bt_controller_enter);
         bt_controller_leave = (Button) view.findViewById(R.id.bt_controller_leave);
         bt_controller_navigation = (Button) view.findViewById(R.id.bt_controller_navigation);
-        queryUser();    // 未完成
-        userName = "刘一";
-        request.addRequestParam("name", userName);
+
+        FLAG = queryCarState();
+        if ("1".equals(FLAG)) {
+            bt_controller_enter.setText("已进入停车场");
+            bt_controller_enter.setTextColor(Color.RED);
+            bt_controller_enter.setEnabled(false);
+        } else {
+            bt_controller_leave.setText("未停车");
+            bt_controller_leave.setTextColor(Color.RED);
+            bt_controller_leave.setEnabled(false);
+        }
     }
 
     /**
@@ -75,10 +84,13 @@ public class ControllerFragment extends Fragment {
         bt_controller_enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                request.setRequestCode(ENTER);
+                final QueryUtils queryUtils = new QueryUtils(getContext());
+                userName = queryUtils.queryUserName();
 
                 if (!"".equals(userName)) {
+                    request.addRequestParam("name", userName);
+                    request.setRequestCode(ENTER);
+
                     final AlertDialog enterDialog = new AlertDialog.Builder(getContext()).create();
                     enterDialog.setTitle("停车提醒: ");
                     enterDialog.setMessage("进入停车场?");
@@ -93,16 +105,21 @@ public class ControllerFragment extends Fragment {
                                                     @Override
                                                     public void success(CommonResponse response) {
 
+                                                        queryUtils.updateCarState(1, userName);
+
+                                                        bt_controller_enter.setText("已进入停车场");
                                                         bt_controller_enter.setTextColor(Color.RED);
                                                         bt_controller_enter.setEnabled(false);
-
+                                                        bt_controller_leave.setText("结账离开");
+                                                        bt_controller_leave.setTextColor(Color.BLACK);
+                                                        bt_controller_leave.setEnabled(true);
                                                         ToastUtils.show(getActivity(), "开门成功");
                                                         ToastUtils.show(getContext(), "进入停车场");
                                                     }
 
                                                     @Override
                                                     public void error1(CommonResponse response) {
-                                                        ToastUtils.show(getActivity(),"你已在停车场中,请勿重复操作!");
+
                                                     }
 
                                                     @Override
@@ -136,8 +153,7 @@ public class ControllerFragment extends Fragment {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     loginDialog.dismiss();
-                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                    startActivity(intent);
+                                    enterLoginActivity();
                                 }
                             });
                     loginDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取  消",
@@ -163,9 +179,11 @@ public class ControllerFragment extends Fragment {
         bt_controller_leave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                QueryUtils queryUtils = new QueryUtils(getContext());
+                userName = queryUtils.queryUserName();
 
                 if (!"".equals(userName)) {
-
+                    request.addRequestParam("name", userName);
                     request.setRequestCode(LEVAE);
 
                     final AlertDialog leaveDialog = new AlertDialog.Builder(getContext()).create();
@@ -182,8 +200,12 @@ public class ControllerFragment extends Fragment {
                                                     @Override
                                                     public void success(CommonResponse response) {
 
+                                                        bt_controller_enter.setText("进入");
                                                         bt_controller_enter.setTextColor(Color.BLACK);
                                                         bt_controller_enter.setEnabled(true);
+                                                        bt_controller_leave.setText("未停车");
+                                                        bt_controller_leave.setTextColor(Color.RED);
+                                                        bt_controller_leave.setEnabled(false);
 
                                                         ToastUtils.show(getContext(), "结账");
                                                         ToastUtils.show(getContext(), "离开停车场");
@@ -201,7 +223,7 @@ public class ControllerFragment extends Fragment {
 
                                                     @Override
                                                     public void fail(String failCode, String failMsg) {
-                                                        ToastUtils.show(getActivity(), "结账失败,请");
+                                                        ToastUtils.show(getActivity(), "结账失败,请重试!");
                                                     }
                                                 }, false);
                                     }
@@ -225,8 +247,7 @@ public class ControllerFragment extends Fragment {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     loginDialog.dismiss();
-                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                    startActivity(intent);
+                                    enterLoginActivity();
                                 }
                             });
                     loginDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取  消",
@@ -281,11 +302,25 @@ public class ControllerFragment extends Fragment {
         });
     }
 
+    /**
+     * 进入登录界面
+     */
+    private void enterLoginActivity() {
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        startActivity(intent);
+    }
 
     /**
-     * 查询本地用户信息
+     * 查询车辆的停留情况
+     *
+     * @return
      */
-    private void queryUser() {
-
+    private String queryCarState() {
+        QueryUtils queryUtils = new QueryUtils(getContext());
+        userName = queryUtils.queryUserName();
+        String state = queryUtils.queryCarState(userName);
+        ToastUtils.show(getContext(), state + " "+ userName);
+        return state;
     }
+
 }

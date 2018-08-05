@@ -1,6 +1,9 @@
 package com.parkingsystem.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,16 +19,23 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.parkingsystem.R;
+import com.parkingsystem.activity.BaseActivity;
 import com.parkingsystem.activity.HomeActivity;
 import com.parkingsystem.activity.InfoActivity;
 import com.parkingsystem.activity.LoginActivity;
 import com.parkingsystem.activity.ParkingRecordActivity;
+import com.parkingsystem.activity.TopupRecordActivity;
 import com.parkingsystem.entity.Mine;
+import com.parkingsystem.utils.CommonResponse;
 import com.parkingsystem.utils.MineAdapter;
+import com.parkingsystem.utils.QueryUtils;
+import com.parkingsystem.utils.ResponseHandler;
 import com.parkingsystem.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.parkingsystem.utils.Constant.URL_COTROLLER_LEAVE;
 
 public class MineFragment extends Fragment {
 
@@ -39,6 +49,8 @@ public class MineFragment extends Fragment {
     private static int CREATED = 0;
 
     private List<Mine> mineList = new ArrayList<>();
+
+    private String userName;
 
     private Handler mHandler = new Handler() {
 
@@ -88,7 +100,6 @@ public class MineFragment extends Fragment {
                     @Override
                     public void run() {
                         Message msg = Message.obtain();
-
                         switch (mine.getName()) {
                             case "用户登录":
                                 msg.what = USER_LOGIN;
@@ -110,7 +121,6 @@ public class MineFragment extends Fragment {
                                 break;
                             default:
                         }
-
                         mHandler.sendMessage(msg);
                     }
                 }).start();
@@ -120,7 +130,9 @@ public class MineFragment extends Fragment {
         return view;
     }
 
-    // 初始化 mineList 数据
+    /**
+     * 初始化 ListView
+      */
     private void initMine() {
         if (CREATED == 0) {     // 判断是否已经创建,避免重复创建
             Mine userLogin = new Mine("用户登录");
@@ -158,8 +170,34 @@ public class MineFragment extends Fragment {
      * 进入个人信息界面
      */
     private void enterUserInfo() {
-        Intent intent = new Intent(getActivity(), InfoActivity.class);
-        startActivity(intent);
+        QueryUtils queryUtils = new QueryUtils(getContext());
+        userName = queryUtils.queryUserName();
+
+        if ("".equals(userName)) {
+            final AlertDialog leaveDialog = new AlertDialog.Builder(getContext()).create();
+            leaveDialog.setTitle("登录提醒: ");
+            leaveDialog.setMessage("您还没有登录,是否先登录?");
+            leaveDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确  定",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            leaveDialog.dismiss();
+                            enterLogin();
+                        }
+                    });
+            leaveDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取  消",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            leaveDialog.dismiss();
+                            ToastUtils.show(getContext(), "取消成功");
+                        }
+                    });
+            leaveDialog.show();
+        } else {
+            Intent intent = new Intent(getActivity(), InfoActivity.class);
+            startActivity(intent);
+        }
     }
 
     /**
@@ -178,7 +216,16 @@ public class MineFragment extends Fragment {
      * 进入充值记录界面
      */
     private void enterTopupRecord() {
-        ToastUtils.show(getContext(), "enterTopupRecord OK");
+        QueryUtils queryUtils = new QueryUtils(getContext());
+        String userName = queryUtils.queryUserName();
+
+        if ("".equals(userName)) {
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+        } else {
+            Intent intent = new Intent(getActivity(), TopupRecordActivity.class);
+            startActivity(intent);
+        }
+
     }
 
     /**
@@ -192,6 +239,14 @@ public class MineFragment extends Fragment {
      * 退出登录
      */
     private void enterLogout() {
-        ToastUtils.show(getContext(), "enterLogout OK");
+        QueryUtils queryUtils = new QueryUtils(getContext());
+        userName = queryUtils.queryUserName();
+
+        if ("".equals(userName)) {
+            enterLogin();
+        } else {
+            queryUtils.delUserInfo(userName);
+            ToastUtils.show(getContext(), "delete OK");
+        }
     }
 }
