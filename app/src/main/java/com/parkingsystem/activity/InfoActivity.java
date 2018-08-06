@@ -2,6 +2,8 @@ package com.parkingsystem.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.parkingsystem.R;
@@ -14,13 +16,14 @@ import java.util.ArrayList;
 
 public class InfoActivity extends BaseActivity {
 
-
-
     private Context mContext;
 
     private User user;
 
-    private ArrayList<UserInfo> userInfoList = new ArrayList<>();
+    private ArrayList<User> userInfoList = new ArrayList<>();
+    private Button logout;
+    private QueryUtils queryUtils;
+    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,33 +31,32 @@ public class InfoActivity extends BaseActivity {
         setContentView(R.layout.activity_info);
         mContext = this;
 
-        initData();
+        queryUtils = new QueryUtils(mContext);
+        userName = queryUtils.queryUserName();
+        User user = queryUtils.queryUserInfo(userName);
+        userInfoList.add(user);
 
+        logout = (Button) findViewById(R.id.bt_info_logout);
         UserInfoAdapter adapter = new UserInfoAdapter(mContext, userInfoList);
         ListView listView = (ListView) findViewById(R.id.info_list_view);
         listView.setAdapter(adapter);
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearData();
+            }
+        });
     }
 
     /**
-     * 将用户信息放入 arrayList 中
+     * 清除本地缓存
      */
-    private void initData() {
-        QueryUtils queryUtils= new QueryUtils(mContext);
-        String userName = queryUtils.queryUserName();
-        User user = queryUtils.queryUserInfo(userName);
-        UserInfo username = new UserInfo("用户名", user.username);
-        userInfoList.add(username);
-        UserInfo realname = new UserInfo("真实姓名", user.realname);
-        userInfoList.add(realname);
-        UserInfo gender = new UserInfo("性  别", user.gender);
-        userInfoList.add(gender);
-        UserInfo card = new UserInfo("车牌号", user.card);
-        userInfoList.add(card);
-        UserInfo phone = new UserInfo("手机号", user.phone);
-        userInfoList.add(phone);
-        UserInfo balance = new UserInfo("余  额", user.balance);
-        userInfoList.add(balance);
-        UserInfo space = new UserInfo("  ", " ");
-        userInfoList.add(space);
+    private void clearData() {
+        queryUtils.delUserInfo(userName);
+        queryUtils.delParkingRecord(userName);
+        queryUtils.delTopupRecord(userName);
+        finish();
     }
+
 }

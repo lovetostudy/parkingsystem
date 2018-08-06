@@ -27,18 +27,15 @@ public class TopupRecordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_parking_record);
+        setContentView(R.layout.activity_topup_record);
         mContext = this;
 
         QueryUtils queryUtils = new QueryUtils(mContext);
         String userName = queryUtils.queryUserName();
         topupInfoArrayList = queryUtils.queryLocalTopupRecord(userName);
 
-        /*TextView textView = (TextView) findViewById(R.id.tv_ok);
-        textView.setText(topupInfoArrayList.get(0).time);*/
-
         TopupRecordAdapter adapter = new TopupRecordAdapter(mContext, topupInfoArrayList);
-        ListView listView = (ListView) findViewById(R.id.lv_parking_record);
+        ListView listView = (ListView) findViewById(R.id.lv_topup_record);
         listView.setAdapter(adapter);
     }
 

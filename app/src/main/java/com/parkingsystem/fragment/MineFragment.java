@@ -3,17 +3,21 @@ package com.parkingsystem.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parkingsystem.R;
 import com.parkingsystem.activity.BaseActivity;
@@ -39,12 +43,10 @@ import static com.parkingsystem.utils.Constant.URL_MINE_TOPUP_RECORD;
 
 public class MineFragment extends Fragment {
 
-    private static final int USER_LOGIN = 0;
     private static final int USER_INFO = 1;
     private static final int PARKING_RECORD = 2;
     private static final int TOPUP_RECORD = 3;
     private static final int SETTING = 4;
-    private static final int USER_LOGOUT = 5;
 
     private static int CREATED = 0;
 
@@ -57,9 +59,6 @@ public class MineFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case USER_LOGIN:
-                    enterLogin();
-                    break;
                 case USER_INFO:
                     enterUserInfo();
                     break;
@@ -72,15 +71,14 @@ public class MineFragment extends Fragment {
                 case SETTING:
                     enterSetting();
                     break;
-                case USER_LOGOUT:
-                    enterLogout();
-                    break;
                 default:
             }
         }
     };
 
     private Mine mine;
+    private ImageView headIcon;
+    private TextView tvLogin;
 
     @Nullable
     @Override
@@ -90,6 +88,9 @@ public class MineFragment extends Fragment {
         MineAdapter adapter = new MineAdapter(getContext(), R.layout.mine_item, mineList);
         ListView listView = (ListView) view.findViewById(R.id.mine_list_view);
         listView.setAdapter(adapter);
+
+        headIcon = (ImageView) view.findViewById(R.id.mine_icon);
+        tvLogin = (TextView) view.findViewById(R.id.mine_state);
 
         initMine();     // 初始化 mineList 数据
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -101,9 +102,6 @@ public class MineFragment extends Fragment {
                     public void run() {
                         Message msg = Message.obtain();
                         switch (mine.getName()) {
-                            case "用户登录":
-                                msg.what = USER_LOGIN;
-                                break;
                             case "个人信息":
                                 msg.what = USER_INFO;
                                 break;
@@ -116,9 +114,6 @@ public class MineFragment extends Fragment {
                             case "设置":
                                 msg.what = SETTING;
                                 break;
-                            case "退出登录":
-                                msg.what = USER_LOGOUT;
-                                break;
                             default:
                         }
                         mHandler.sendMessage(msg);
@@ -127,7 +122,37 @@ public class MineFragment extends Fragment {
             }
         });
 
+        headIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enterLogin();
+
+            }
+        });
+
+        tvLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enterLogin();
+            }
+        });
+
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        QueryUtils queryUtils = new QueryUtils(getContext());
+        String username = queryUtils.queryUserName();
+        if (!"".equals(username)) {
+            headIcon.setImageDrawable(getResources().getDrawable(R.drawable.after));
+            tvLogin.setText(username);
+            tvLogin.setTextColor(Color.BLACK);
+            headIcon.setEnabled(false);
+            tvLogin.setEnabled(false);
+        }
     }
 
     /**
@@ -135,8 +160,6 @@ public class MineFragment extends Fragment {
      */
     private void initMine() {
         if (CREATED == 0) {     // 判断是否已经创建,避免重复创建
-            Mine userLogin = new Mine("用户登录");
-            mineList.add(userLogin);
             Mine userInfo = new Mine("个人信息");
             mineList.add(userInfo);
             Mine parkingRecord = new Mine("停车记录");
@@ -145,8 +168,6 @@ public class MineFragment extends Fragment {
             mineList.add(topupRecord);
             Mine setting = new Mine("设置");
             mineList.add(setting);
-            Mine userLogout = new Mine("退出登录");
-            mineList.add(userLogout);
 
             CREATED = 1;
         }
@@ -365,22 +386,5 @@ public class MineFragment extends Fragment {
      */
     private void enterSetting() {
         ToastUtils.show(getContext(), "enterSetting OK");
-    }
-
-    /**
-     * 退出登录
-     */
-    private void enterLogout() {
-        QueryUtils queryUtils = new QueryUtils(getContext());
-        userName = queryUtils.queryUserName();
-
-        if ("".equals(userName)) {
-            enterLogin();
-        } else {
-            queryUtils.delUserInfo(userName);
-            queryUtils.delParkingRecord(userName);
-            queryUtils.delTopupRecord(userName);
-            ToastUtils.show(getContext(), "delete OK");
-        }
     }
 }
