@@ -179,7 +179,6 @@ public class MineFragment extends Fragment {
     private void enterUserInfo() {
         QueryUtils queryUtils = new QueryUtils(getContext());
         userName = queryUtils.queryUserName();
-
         if ("".equals(userName)) {
             final AlertDialog leaveDialog = new AlertDialog.Builder(getContext()).create();
             leaveDialog.setTitle("登录提醒: ");
@@ -273,8 +272,26 @@ public class MineFragment extends Fragment {
                 ToastUtils.show(getContext(), "enterParkingRecord OK");
             }
         } else {
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
+            final AlertDialog leaveDialog = new AlertDialog.Builder(getContext()).create();
+            leaveDialog.setTitle("登录提醒: ");
+            leaveDialog.setMessage("您还没有登录,是否先登录?");
+            leaveDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确  定",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            leaveDialog.dismiss();
+                            enterLogin();
+                        }
+                    });
+            leaveDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取  消",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            leaveDialog.dismiss();
+                            ToastUtils.show(getContext(), "取消成功");
+                        }
+                    });
+            leaveDialog.show();
         }
 
     }
@@ -283,68 +300,36 @@ public class MineFragment extends Fragment {
      * 进入充值记录界面
      */
     private void enterTopupRecord() {
-        Intent intent = new Intent(getActivity(), TopupRecordActivity.class);
-        startActivity(intent);
-        /*userName = "刘一";
-        final QueryUtils queryUtils = new QueryUtils(getContext());
-        final CommonRequest request = new CommonRequest();
-        request.addRequestParam("name", userName);
-
-        if (getActivity() instanceof BaseActivity) {
-            ((BaseActivity) getActivity()).sendHttpPostRequest(URL_MINE_TOPUP_RECORD, request,
-                    new ResponseHandler() {
-                        @Override
-                        public void success(CommonResponse response) {
-                            ToastUtils.show(getActivity(), "ok");
-
-                            ArrayList<TopupInfo> topupInfoArrayList = new ArrayList<>();
-
-                            for (int i = 0; i < response.getDataList().size(); i++) {
-                                TopupInfo topupInfo = new TopupInfo();
-                                        topupInfo.userName = response.getDataList().get(i).get("user_name");
-                                topupInfo.time = response.getDataList().get(i).get("tl_money");
-                                topupInfo.money = response.getDataList().get(i).get("tl_time");
-
-                                ToastUtils.show(getActivity(), response.getDataList().get(i).get("tl_time"));
-                                topupInfoArrayList.add(topupInfo);
-                            }
-                            boolean reslut = queryUtils.addTopupRecord(topupInfoArrayList);
-
-                            if (reslut == true) {
-                                ToastUtils.show(getActivity(), "插入成功");
-                            } else {
-                                ToastUtils.show(getActivity(), "插入失败");
-                            }
-                        }
-
-                        @Override
-                        public void error1(CommonResponse response) {
-
-                        }
-
-                        @Override
-                        public void error2(CommonResponse response) {
-
-                        }
-
-                        @Override
-                        public void fail(String failCode, String failMsg) {
-
-                        }
-                    }, false);*/
-
-        /*ArrayList<TopupInfo> topupInfoArrayList = new ArrayList<>();
+        ArrayList<TopupInfo> topupInfoArrayList = new ArrayList<>();
         final QueryUtils queryUtils = new QueryUtils(getContext());
         String userName = queryUtils.queryUserName();
 
         if ("".equals(userName)) {
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
+            final AlertDialog leaveDialog = new AlertDialog.Builder(getContext()).create();
+            leaveDialog.setTitle("登录提醒: ");
+            leaveDialog.setMessage("您还没有登录,是否先登录?");
+            leaveDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确  定",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            leaveDialog.dismiss();
+                            enterLogin();
+                        }
+                    });
+            leaveDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取  消",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            leaveDialog.dismiss();
+                            ToastUtils.show(getContext(), "取消成功");
+                        }
+                    });
+            leaveDialog.show();
         } else {
             topupInfoArrayList = queryUtils.queryLocalTopupRecord(userName);    // 查询本地记录
 
-            if (topupInfoArrayList != null) { //有本地记录则直接进入 parkingRecord 界面
-                Intent intent = new Intent(getActivity(), ParkingRecordActivity.class);
+            if (topupInfoArrayList != null) { //有本地记录则直接进入 topupRecord 界面
+                Intent intent = new Intent(getActivity(), TopupRecordActivity.class);
                 startActivity(intent);
                 ToastUtils.show(getContext(), "derectory!!!");
             } else {        // 否则向服务器查询并写入本地数据库
@@ -356,24 +341,24 @@ public class MineFragment extends Fragment {
                             new ResponseHandler() {
                                 @Override
                                 public void success(CommonResponse response) {
-                                    ArrayList<ParkingInfo> parkingInfos = new ArrayList<>();
+                                    ArrayList<TopupInfo> topupInfos = new ArrayList<>();
 
                                     for (int i = 0; i < response.getDataList().size(); i++) {
                                         TopupInfo topupInfo = new TopupInfo();
-                                        *//*topupInfo.userName = response.getDataList().get(i).get("user_name");
-                                        topupInfo.time = response.getDataList().get(i).get("pl_money");
-                                        topupInfo.money = response.getDataList().get(i).get("pl_start_time");*//*
+                                        topupInfo.userName = response.getDataList().get(i).get("user_name");
+                                        topupInfo.time = response.getDataList().get(i).get("tl_money");
+                                        topupInfo.money = response.getDataList().get(i).get("tl_time");
 
-                                        ToastUtils.show(getActivity(), response.getDataList().get(i).get("pl_end_time"));
-                                        *//*parkingInfos.add(parkingInfo);*//*
+                                        ToastUtils.show(getActivity(), response.getDataList().get(i).get("tl_time"));
+                                        topupInfos.add(topupInfo);
                                     }
-                                    boolean reslut = queryUtils.addTopupRecord(parkingInfos);
-*//*
+                                    boolean reslut = queryUtils.addTopupRecord(topupInfos);
+
                                     if (reslut == true) {
                                         ToastUtils.show(getActivity(), "插入成功");
                                     } else {
                                         ToastUtils.show(getActivity(), "插入失败");
-                                    }*//*
+                                    }
                                 }
 
                                 @Override
@@ -392,14 +377,9 @@ public class MineFragment extends Fragment {
                                 }
                             }, false);
                 }
-
-
-                ToastUtils.show(getContext(), "enterParkingRecord OK");
             }
         }
-*/
-        }
-
+    }
     /**
      * 进入设置界面
      */

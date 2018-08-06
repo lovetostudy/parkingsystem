@@ -28,7 +28,7 @@ public class TopupRecordActivity extends AppCompatActivity {
         mContext = this;
 
         Button button = (Button) findViewById(R.id.query);
-        ArrayList<TopupInfo> topupInfoArrayList;
+        ArrayList<TopupInfo> topupInfoArrayList = new ArrayList<>();
 
 
         QueryUtils queryUtils = new QueryUtils(mContext);

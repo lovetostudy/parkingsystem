@@ -28,36 +28,26 @@ public class ParkingRecordActivity extends BaseActivity {
 
     private ArrayList<ParkingInfo> parkingInfos = new ArrayList<>();
 
+    ParkingInfo parkingInfo = new ParkingInfo();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parking_record);
+        mContext = this;
 
-       /* initData();*/
-
-
-            /*ParkingInfo parkingInfo = new ParkingInfo("用户1 ","123",
-                    "2018年08月05日17:38:10","2018年08月05日17:38:27");*/
-            /*parkingInfo.userName = "用户1 ";
-            parkingInfo.cost = "123" ;
-            parkingInfo.startTime = "2018年08月05日17:38:10";
-            parkingInfo.endTime = "2018年08月05日17:38:27";*/
-
-            /*parkingInfos.add(parkingInfo);*/
-
-
-        /*ParkingRecordAdapter adapter = new ParkingRecordAdapter(mContext);
-        ListView listView = (ListView) findViewById(R.id.lv_parking_record);
-        listView.setAdapter(adapter);*/
-        TextView tvOk = (TextView) findViewById(R.id.tv_ok);
-    }
-
-    /*private void initData() {
         QueryUtils queryUtils= new QueryUtils(mContext);
         String userName = queryUtils.queryUserName();
         parkingInfos = queryUtils.queryLocalParkingRecord(userName);
 
-    }*/
+        /*ParkingRecordAdapter adapter = new ParkingRecordAdapter(mContext);
+        ListView listView = (ListView) findViewById(R.id.lv_parking_record);
+        listView.setAdapter(adapter);*/
+
+
+    }
+
+
 
 
 }

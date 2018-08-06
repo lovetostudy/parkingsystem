@@ -121,15 +121,12 @@ public class QueryUtils {
      */
     public User queryUserInfo(String userName) {
         SQLiteDatabase database = parkingSqliteOpenHelper.getReadableDatabase();
-        /*ArrayList<User> userArrayList = new ArrayList<>();*/
         User user = new User();
 
         Cursor cursor = database.rawQuery("select * from user_info where user_name = ?",
                 new String[]{userName});
-        /*_id,user_name,real_name,gender,car_card,phone,balance*/
         if (cursor != null && cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
-/*                User user = new User();*/
                 user.id = cursor.getInt(0);
                 user.username = cursor.getString(1);
                 user.realname = cursor.getString(2);
@@ -137,7 +134,6 @@ public class QueryUtils {
                 user.card = cursor.getString(4);
                 user.phone = cursor.getString(5);
                 user.balance = cursor.getString(6);
-/*                userArrayList.add(user);*/
             }
             cursor.close();
         }
@@ -187,22 +183,17 @@ public class QueryUtils {
     }
 
     /**
-     * 查询用户停车记录
+     * 查询停车记录
      */
     public ArrayList<ParkingInfo> queryLocalParkingRecord(String username) {
+
         ArrayList<ParkingInfo> parkingRecords = new ArrayList<>();
+
         SQLiteDatabase database = parkingSqliteOpenHelper.getReadableDatabase();
-        String username1 = "rong";
-     /*   ArrayList<ParkingInfo> a = new ArrayList<>();
-        ParkingInfo parkingInfo1 = new ParkingInfo();
-        parkingInfo1.startTime = "jlkjlk";
-        a.add(parkingInfo1);*/
+
         Cursor cursor = database.rawQuery("select user_name, parking_money, " +
                 "start_time, end_time from parking_record where user_name = ?", new String[]{username});
 
-        /*Cursor cursor = database.query("parking_record", new String[]{"user_name",
-                        "parking_money", "start_time", "end_time"}, "user_name = ?",
-                new String[]{"刘一"}, null, null, "_id desc");*/
         if (cursor != null && cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
                 ParkingInfo parkingInfo = new ParkingInfo();
@@ -212,7 +203,6 @@ public class QueryUtils {
                 parkingInfo.endTime = cursor.getString(3);
 
                 parkingRecords.add(parkingInfo);
-
             }
             cursor.close();
         }
@@ -261,7 +251,7 @@ public class QueryUtils {
         ArrayList<TopupInfo> topupInfoArrayList = new ArrayList<>();
 
         Cursor cursor = database.rawQuery("select user_name, topup_time, topup_money from" +
-                " topup_record where user_name=?", new String[]{userName});
+                " topup_record where user_name = ?", new String[]{userName});
         if (cursor != null && cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
                 TopupInfo topupInfo = new TopupInfo();
