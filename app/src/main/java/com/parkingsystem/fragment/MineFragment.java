@@ -283,9 +283,10 @@ public class MineFragment extends Fragment {
      * 进入充值记录界面
      */
     private void enterTopupRecord() {
-
-        userName = "刘一";
-
+        Intent intent = new Intent(getActivity(), TopupRecordActivity.class);
+        startActivity(intent);
+        /*userName = "刘一";
+        final QueryUtils queryUtils = new QueryUtils(getContext());
         final CommonRequest request = new CommonRequest();
         request.addRequestParam("name", userName);
 
@@ -296,24 +297,24 @@ public class MineFragment extends Fragment {
                         public void success(CommonResponse response) {
                             ToastUtils.show(getActivity(), "ok");
 
-                            /*ArrayList<ParkingInfo> parkingInfos = new ArrayList<>();
+                            ArrayList<TopupInfo> topupInfoArrayList = new ArrayList<>();
 
                             for (int i = 0; i < response.getDataList().size(); i++) {
                                 TopupInfo topupInfo = new TopupInfo();
                                         topupInfo.userName = response.getDataList().get(i).get("user_name");
-                                topupInfo.time = response.getDataList().get(i).get("pl_money");
-                                topupInfo.money = response.getDataList().get(i).get("pl_start_time");
+                                topupInfo.time = response.getDataList().get(i).get("tl_money");
+                                topupInfo.money = response.getDataList().get(i).get("tl_time");
 
-                                ToastUtils.show(getActivity(), response.getDataList().get(i).get("pl_end_time"));
-                                        parkingInfos.add(parkingInfo);
+                                ToastUtils.show(getActivity(), response.getDataList().get(i).get("tl_time"));
+                                topupInfoArrayList.add(topupInfo);
                             }
-                            boolean reslut = queryUtils.addTopupRecord(parkingInfos);
+                            boolean reslut = queryUtils.addTopupRecord(topupInfoArrayList);
 
                             if (reslut == true) {
                                 ToastUtils.show(getActivity(), "插入成功");
                             } else {
                                 ToastUtils.show(getActivity(), "插入失败");
-                            }*/
+                            }
                         }
 
                         @Override
@@ -330,7 +331,7 @@ public class MineFragment extends Fragment {
                         public void fail(String failCode, String failMsg) {
 
                         }
-                    }, false);
+                    }, false);*/
 
         /*ArrayList<TopupInfo> topupInfoArrayList = new ArrayList<>();
         final QueryUtils queryUtils = new QueryUtils(getContext());
@@ -398,7 +399,7 @@ public class MineFragment extends Fragment {
         }
 */
         }
-    }
+
     /**
      * 进入设置界面
      */

@@ -257,19 +257,53 @@ public class QueryUtils {
      * @return
      */
     public ArrayList<TopupInfo> queryLocalTopupRecord(String userName) {
-        return null;
+        SQLiteDatabase database = parkingSqliteOpenHelper.getReadableDatabase();
+        ArrayList<TopupInfo> topupInfoArrayList = new ArrayList<>();
+
+        Cursor cursor = database.rawQuery("select user_name, topup_time, topup_money from" +
+                " topup_record where user_name=?", new String[]{userName});
+        if (cursor != null && cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                TopupInfo topupInfo = new TopupInfo();
+                topupInfo.userName = cursor.getString(0);
+                topupInfo.time = cursor.getString(1);
+                topupInfo.money = cursor.getString(2);
+
+                topupInfoArrayList.add(topupInfo);
+            }
+            cursor.close();
+        }
+        database.close();
+
+        return topupInfoArrayList;
     }
 
     /**
      * 添加充值记录到本地
      *
-     * @param parkingInfos
+     * @param topupInfos
      * @return
      */
-    public boolean addTopupRecord(ArrayList<ParkingInfo> parkingInfos) {
+    public boolean addTopupRecord(ArrayList<TopupInfo> topupInfos) {
+        SQLiteDatabase database = parkingSqliteOpenHelper.getReadableDatabase();
+        TopupInfo topupInfo = new TopupInfo();
+        ContentValues contentValues = new ContentValues();
+        long result = 0;
 
+        for (int i = 0; i < topupInfos.size(); i++) {
+            topupInfo = topupInfos.get(i);
+            contentValues.put("user_name", topupInfo.userName);
+            contentValues.put("topup_money", topupInfo.money);
+            contentValues.put("topup_time", topupInfo.time);
 
+            result = database.insert("topup_record", null, contentValues);
+        }
+        database.close();
 
-        return false;
+        if (result != -1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
