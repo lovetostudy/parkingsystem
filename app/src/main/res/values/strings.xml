@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">停车场引导系统</string>
     <string name="version_name">版本名称</string>
-    <string name="get_in">进 入</string>
-    <string name="leave">离 开</string>
+    <string name="get_in">进  入</string>
+    <string name="leave">离  开</string>
     <string name="navigate">停车场导航</string>
     <string name="user_name">用户名:</string>
     <string name="user_rigister_hint">请输入用户名,且不少于2位</string>
@@ -36,4 +36,5 @@
     <string name="hint_real_name">请输入您的真实姓名</string>
     <string name="hint_car_card">请输入你的车牌号</string>
     <string name="hint_phone">请输入你的手机号</string>
+    <string name="topup">充  值</string>
 </resources>

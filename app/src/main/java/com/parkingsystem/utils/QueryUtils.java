@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.parkingsystem.entity.ParkingInfo;
+import com.parkingsystem.entity.TopupInfo;
 import com.parkingsystem.entity.User;
 import com.parkingsystem.entity.UserInfo;
 import com.parkingsystem.logs.LogUtil;
@@ -184,4 +186,90 @@ public class QueryUtils {
         return result;
     }
 
+    /**
+     * 查询用户停车记录
+     */
+    public ArrayList<ParkingInfo> queryLocalParkingRecord(String username) {
+        ArrayList<ParkingInfo> parkingRecords = new ArrayList<>();
+        SQLiteDatabase database = parkingSqliteOpenHelper.getReadableDatabase();
+        String username1 = "rong";
+     /*   ArrayList<ParkingInfo> a = new ArrayList<>();
+        ParkingInfo parkingInfo1 = new ParkingInfo();
+        parkingInfo1.startTime = "jlkjlk";
+        a.add(parkingInfo1);*/
+        Cursor cursor = database.rawQuery("select user_name, parking_money, " +
+                "start_time, end_time from parking_record where user_name = ?", new String[]{username});
+
+        /*Cursor cursor = database.query("parking_record", new String[]{"user_name",
+                        "parking_money", "start_time", "end_time"}, "user_name = ?",
+                new String[]{"刘一"}, null, null, "_id desc");*/
+        if (cursor != null && cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                ParkingInfo parkingInfo = new ParkingInfo();
+                parkingInfo.userName = cursor.getString(0);
+                parkingInfo.cost = cursor.getString(1);
+                parkingInfo.startTime = cursor.getString(2);
+                parkingInfo.endTime = cursor.getString(3);
+
+                parkingRecords.add(parkingInfo);
+
+            }
+            cursor.close();
+        }
+        database.close();
+
+        return parkingRecords;
+    }
+
+    /**
+     * 插入停车记录
+     *
+     * @param parkingInfos
+     */
+    public boolean addParkingRecord(ArrayList<ParkingInfo> parkingInfos) {
+        SQLiteDatabase database = parkingSqliteOpenHelper.getReadableDatabase();
+        ParkingInfo parkingInfo = new ParkingInfo();
+        ContentValues contentValues = new ContentValues();
+        long result = 0;
+
+        for (int i = 0; i < parkingInfos.size(); i++) {
+            parkingInfo = parkingInfos.get(i);
+            contentValues.put("user_name", parkingInfo.userName);
+            contentValues.put("parking_money", parkingInfo.cost);
+            contentValues.put("start_time", parkingInfo.startTime);
+            contentValues.put("end_time", parkingInfo.endTime);
+
+            result = database.insert("parking_record", null, contentValues);
+        }
+        database.close();
+
+        if (result != -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 查询本地充值记录
+     *
+     * @param userName
+     * @return
+     */
+    public ArrayList<TopupInfo> queryLocalTopupRecord(String userName) {
+        return null;
+    }
+
+    /**
+     * 添加充值记录到本地
+     *
+     * @param parkingInfos
+     * @return
+     */
+    public boolean addTopupRecord(ArrayList<ParkingInfo> parkingInfos) {
+
+
+
+        return false;
+    }
 }

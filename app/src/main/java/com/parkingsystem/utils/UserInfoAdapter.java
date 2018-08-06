@@ -46,7 +46,6 @@ public class UserInfoAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         View view = null;
         if (convertView != null) {
             view = convertView;
@@ -65,42 +64,4 @@ public class UserInfoAdapter extends BaseAdapter {
 
         return view;
     }
-
-    /*private int resourceId;
-
-
-    public UserInfoAdapter(@NonNull Context context, int resource,
-                       @NonNull List<UserInfo> objects) {
-        super(context, resource, objects);
-        resourceId = resource;
-    }
-
-    @NonNull
-    @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        UserInfo userInfo =  getItem(position);   // 获取当前项的UserInfo 实例
-        View view;
-        ViewHolder viewHolder;
-        if (convertView == null) {
-            view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
-            viewHolder = new ViewHolder();
-            viewHolder.labelName = (TextView) view.findViewById(R.id.label_name);
-            viewHolder.displayValue = (TextView) view.findViewById(R.id.display_name);
-            view.setTag(viewHolder);        // 将 ViewHolder 存储在 View 中
-        } else {
-            view = convertView;
-            viewHolder = (ViewHolder) view.getTag();        // 重新获取 ViewHolder
-        }
-        viewHolder.labelName.setText(userInfo.getLabelName());
-        viewHolder.displayValue.setText(userInfo.getDisplayValue());
-
-        return view;
-    }
-
-    private class ViewHolder {
-
-        TextView labelName;
-
-        TextView displayValue;
-    }*/
 }

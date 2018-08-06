@@ -37,6 +37,8 @@ public class ControllerFragment extends Fragment {
     private Button bt_controller_enter;
     private Button bt_controller_leave;
     private Button bt_controller_navigation;
+    private Button bt_controller_topup;
+
     String userName = "";
     private CommonRequest request = new CommonRequest();
     private View view;
@@ -52,6 +54,7 @@ public class ControllerFragment extends Fragment {
         enterButtonListner();
         leaveButtonListener();
         navigationButtonListener();
+        topupButtonListener();
 
         return view;
     }
@@ -64,6 +67,7 @@ public class ControllerFragment extends Fragment {
         bt_controller_enter = (Button) view.findViewById(R.id.bt_controller_enter);
         bt_controller_leave = (Button) view.findViewById(R.id.bt_controller_leave);
         bt_controller_navigation = (Button) view.findViewById(R.id.bt_controller_navigation);
+        bt_controller_topup = (Button) view.findViewById(R.id.bt_controller_topup);
 
         FLAG = queryCarState();
         if ("1".equals(FLAG)) {
@@ -300,6 +304,18 @@ public class ControllerFragment extends Fragment {
                             });
                     loginDialog.show();
                 }*/
+
+            }
+        });
+    }
+
+    /**
+     * 充值按钮点击事件
+     */
+    private void topupButtonListener() {
+        bt_controller_topup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
             }
         });

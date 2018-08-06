@@ -26,6 +26,9 @@ import com.parkingsystem.activity.LoginActivity;
 import com.parkingsystem.activity.ParkingRecordActivity;
 import com.parkingsystem.activity.TopupRecordActivity;
 import com.parkingsystem.entity.Mine;
+import com.parkingsystem.entity.ParkingInfo;
+import com.parkingsystem.entity.TopupInfo;
+import com.parkingsystem.utils.CommonRequest;
 import com.parkingsystem.utils.CommonResponse;
 import com.parkingsystem.utils.MineAdapter;
 import com.parkingsystem.utils.QueryUtils;
@@ -33,9 +36,13 @@ import com.parkingsystem.utils.ResponseHandler;
 import com.parkingsystem.utils.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import static com.parkingsystem.utils.Constant.URL_COTROLLER_ENTER;
 import static com.parkingsystem.utils.Constant.URL_COTROLLER_LEAVE;
+import static com.parkingsystem.utils.Constant.URL_MINE_PARKING_RECORD;
+import static com.parkingsystem.utils.Constant.URL_MINE_TOPUP_RECORD;
 
 public class MineFragment extends Fragment {
 
@@ -204,30 +211,194 @@ public class MineFragment extends Fragment {
      * 进入停车记录界面
      */
     private void enterParkingRecord() {
+        ArrayList<ParkingInfo> parkingInfoArrayList = new ArrayList<>();
+        final QueryUtils queryUtils = new QueryUtils(getContext());
+        String userName = queryUtils.queryUserName();
 
-        Intent intent = new Intent(getActivity(), ParkingRecordActivity.class);
-        startActivity(intent
-        );
+        if (!"".equals(userName)) {
+            parkingInfoArrayList = queryUtils.queryLocalParkingRecord(userName);    // 查询本地记录
 
-        ToastUtils.show(getContext(), "enterParkingRecord OK");
+            if (parkingInfoArrayList != null) { //有本地记录则直接进入 parkingRecord 界面
+                Intent intent = new Intent(getActivity(), ParkingRecordActivity.class);
+                startActivity(intent);
+                ToastUtils.show(getContext(), "derectory!!!");
+            } else {        // 否则向服务器查询并写入本地数据库
+                final CommonRequest request = new CommonRequest();
+                request.addRequestParam("name", userName);
+
+                if (getActivity() instanceof BaseActivity) {
+                    ((BaseActivity) getActivity()).sendHttpPostRequest(URL_MINE_PARKING_RECORD, request,
+                            new ResponseHandler() {
+                                @Override
+                                public void success(CommonResponse response) {
+                                    ArrayList<ParkingInfo> parkingInfos = new ArrayList<>();
+
+                                    for (int i = 0; i < response.getDataList().size(); i++) {
+                                        ParkingInfo parkingInfo = new ParkingInfo();
+                                        parkingInfo.userName = response.getDataList().get(i).get("user_name");
+                                        parkingInfo.cost = response.getDataList().get(i).get("pl_money");
+                                        parkingInfo.startTime = response.getDataList().get(i).get("pl_start_time");
+                                        parkingInfo.endTime = response.getDataList().get(i).get("pl_end_time");
+
+                                        ToastUtils.show(getActivity(), response.getDataList().get(i).get("pl_end_time"));
+                                        parkingInfos.add(parkingInfo);
+                                    }
+                                    boolean reslut = queryUtils.addParkingRecord(parkingInfos);
+
+                                    if (reslut == true) {
+                                        ToastUtils.show(getActivity(), "插入成功");
+                                    } else {
+                                        ToastUtils.show(getActivity(), "插入失败");
+                                    }
+                                }
+
+                                @Override
+                                public void error1(CommonResponse response) {
+
+                                }
+
+                                @Override
+                                public void error2(CommonResponse response) {
+
+                                }
+
+                                @Override
+                                public void fail(String failCode, String failMsg) {
+
+                                }
+                            }, false);
+                }
+
+
+                ToastUtils.show(getContext(), "enterParkingRecord OK");
+            }
+        } else {
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+        }
+
     }
 
     /**
      * 进入充值记录界面
      */
     private void enterTopupRecord() {
-        QueryUtils queryUtils = new QueryUtils(getContext());
+
+        userName = "刘一";
+
+        final CommonRequest request = new CommonRequest();
+        request.addRequestParam("name", userName);
+
+        if (getActivity() instanceof BaseActivity) {
+            ((BaseActivity) getActivity()).sendHttpPostRequest(URL_MINE_TOPUP_RECORD, request,
+                    new ResponseHandler() {
+                        @Override
+                        public void success(CommonResponse response) {
+                            ToastUtils.show(getActivity(), "ok");
+
+                            /*ArrayList<ParkingInfo> parkingInfos = new ArrayList<>();
+
+                            for (int i = 0; i < response.getDataList().size(); i++) {
+                                TopupInfo topupInfo = new TopupInfo();
+                                        topupInfo.userName = response.getDataList().get(i).get("user_name");
+                                topupInfo.time = response.getDataList().get(i).get("pl_money");
+                                topupInfo.money = response.getDataList().get(i).get("pl_start_time");
+
+                                ToastUtils.show(getActivity(), response.getDataList().get(i).get("pl_end_time"));
+                                        parkingInfos.add(parkingInfo);
+                            }
+                            boolean reslut = queryUtils.addTopupRecord(parkingInfos);
+
+                            if (reslut == true) {
+                                ToastUtils.show(getActivity(), "插入成功");
+                            } else {
+                                ToastUtils.show(getActivity(), "插入失败");
+                            }*/
+                        }
+
+                        @Override
+                        public void error1(CommonResponse response) {
+
+                        }
+
+                        @Override
+                        public void error2(CommonResponse response) {
+
+                        }
+
+                        @Override
+                        public void fail(String failCode, String failMsg) {
+
+                        }
+                    }, false);
+
+        /*ArrayList<TopupInfo> topupInfoArrayList = new ArrayList<>();
+        final QueryUtils queryUtils = new QueryUtils(getContext());
         String userName = queryUtils.queryUserName();
 
         if ("".equals(userName)) {
             Intent intent = new Intent(getActivity(), LoginActivity.class);
-        } else {
-            Intent intent = new Intent(getActivity(), TopupRecordActivity.class);
             startActivity(intent);
+        } else {
+            topupInfoArrayList = queryUtils.queryLocalTopupRecord(userName);    // 查询本地记录
+
+            if (topupInfoArrayList != null) { //有本地记录则直接进入 parkingRecord 界面
+                Intent intent = new Intent(getActivity(), ParkingRecordActivity.class);
+                startActivity(intent);
+                ToastUtils.show(getContext(), "derectory!!!");
+            } else {        // 否则向服务器查询并写入本地数据库
+                final CommonRequest request = new CommonRequest();
+                request.addRequestParam("name", userName);
+
+                if (getActivity() instanceof BaseActivity) {
+                    ((BaseActivity) getActivity()).sendHttpPostRequest(URL_MINE_TOPUP_RECORD, request,
+                            new ResponseHandler() {
+                                @Override
+                                public void success(CommonResponse response) {
+                                    ArrayList<ParkingInfo> parkingInfos = new ArrayList<>();
+
+                                    for (int i = 0; i < response.getDataList().size(); i++) {
+                                        TopupInfo topupInfo = new TopupInfo();
+                                        *//*topupInfo.userName = response.getDataList().get(i).get("user_name");
+                                        topupInfo.time = response.getDataList().get(i).get("pl_money");
+                                        topupInfo.money = response.getDataList().get(i).get("pl_start_time");*//*
+
+                                        ToastUtils.show(getActivity(), response.getDataList().get(i).get("pl_end_time"));
+                                        *//*parkingInfos.add(parkingInfo);*//*
+                                    }
+                                    boolean reslut = queryUtils.addTopupRecord(parkingInfos);
+*//*
+                                    if (reslut == true) {
+                                        ToastUtils.show(getActivity(), "插入成功");
+                                    } else {
+                                        ToastUtils.show(getActivity(), "插入失败");
+                                    }*//*
+                                }
+
+                                @Override
+                                public void error1(CommonResponse response) {
+
+                                }
+
+                                @Override
+                                public void error2(CommonResponse response) {
+
+                                }
+
+                                @Override
+                                public void fail(String failCode, String failMsg) {
+
+                                }
+                            }, false);
+                }
+
+
+                ToastUtils.show(getContext(), "enterParkingRecord OK");
+            }
         }
-
+*/
+        }
     }
-
     /**
      * 进入设置界面
      */
