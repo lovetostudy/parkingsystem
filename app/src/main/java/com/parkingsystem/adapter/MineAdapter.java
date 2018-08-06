@@ -1,4 +1,4 @@
-package com.parkingsystem.utils;
+package com.parkingsystem.adapter;
 
 import android.content.Context;
 import android.opengl.GLException;

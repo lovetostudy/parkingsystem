@@ -1,33 +1,16 @@
 package com.parkingsystem.activity;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.parkingsystem.R;
 import com.parkingsystem.entity.User;
 import com.parkingsystem.entity.UserInfo;
-import com.parkingsystem.logs.LogUtil;
-import com.parkingsystem.utils.CommonRequest;
-import com.parkingsystem.utils.CommonResponse;
-import com.parkingsystem.utils.MineAdapter;
 import com.parkingsystem.utils.QueryUtils;
-import com.parkingsystem.utils.ResponseHandler;
-import com.parkingsystem.utils.ToastUtils;
-import com.parkingsystem.utils.UserInfoAdapter;
+import com.parkingsystem.adapter.UserInfoAdapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import static com.parkingsystem.utils.Constant.OK;
-import static com.parkingsystem.utils.Constant.URL_USER_INFO;
 
 public class InfoActivity extends BaseActivity {
 

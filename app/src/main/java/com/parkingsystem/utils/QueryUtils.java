@@ -22,13 +22,14 @@ public class QueryUtils {
         parkingSqliteOpenHelper = new ParkingSqliteOpenHelper(mContext);
     }
 
+    // **************************用户操作************************
     /**
      * 添加用户信息
      *
      * @param user
      * @return result 插入结果的判断值
      */
-    public boolean addUserInfo(User user) {
+    public void addUserInfo(User user) {
         SQLiteDatabase database = parkingSqliteOpenHelper.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -41,13 +42,8 @@ public class QueryUtils {
         contentValues.put("balance", user.balance);
         contentValues.put("car_state", user.carState);
         long result = database.insert("user_info", null, contentValues);
-        database.close();
 
-        if (result != -1) {
-            return true;
-        } else {
-            return false;
-        }
+        database.close();
     }
 
      /**
@@ -142,6 +138,8 @@ public class QueryUtils {
         return user;
     }
 
+
+    // **************************停车状态操作************************
     /**
      * 查询用户停车状态
      *
@@ -182,6 +180,8 @@ public class QueryUtils {
         return result;
     }
 
+
+    // **************************停车记录操作************************
     /**
      * 查询停车记录
      */
@@ -241,6 +241,28 @@ public class QueryUtils {
     }
 
     /**
+     * 删除停车记录
+     *
+     * @param username
+     * @return
+     */
+    public boolean delParkingRecord(String username) {
+        SQLiteDatabase database = parkingSqliteOpenHelper.getReadableDatabase();
+
+        int result = database.delete("parking_record", "user_name=?",
+                new String[]{username});
+        database.close();
+
+        if (result != -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    // **************************充值记录操作************************
+    /**
      * 查询本地充值记录
      *
      * @param userName
@@ -248,6 +270,7 @@ public class QueryUtils {
      */
     public ArrayList<TopupInfo> queryLocalTopupRecord(String userName) {
         SQLiteDatabase database = parkingSqliteOpenHelper.getReadableDatabase();
+
         ArrayList<TopupInfo> topupInfoArrayList = new ArrayList<>();
 
         Cursor cursor = database.rawQuery("select user_name, topup_time, topup_money from" +
@@ -288,6 +311,26 @@ public class QueryUtils {
 
             result = database.insert("topup_record", null, contentValues);
         }
+        database.close();
+
+        if (result != -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 删除充值记录
+     *
+     * @param username
+     * @return
+     */
+    public boolean delTopupRecord(String username) {
+        SQLiteDatabase database = parkingSqliteOpenHelper.getReadableDatabase();
+
+        int result = database.delete("topup_record", "user_name=?",
+                new String[]{username});
         database.close();
 
         if (result != -1) {

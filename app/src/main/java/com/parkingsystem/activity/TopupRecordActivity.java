@@ -5,10 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parkingsystem.R;
+import com.parkingsystem.adapter.TopupRecordAdapter;
 import com.parkingsystem.entity.TopupInfo;
 import com.parkingsystem.entity.User;
 import com.parkingsystem.utils.QueryUtils;
@@ -19,22 +21,25 @@ import java.util.ArrayList;
 public class TopupRecordActivity extends AppCompatActivity {
 
     private Context mContext;
-    private TextView tvShow;
+
+    ArrayList<TopupInfo> topupInfoArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_topup_record);
+        setContentView(R.layout.activity_parking_record);
         mContext = this;
 
-        Button button = (Button) findViewById(R.id.query);
-        ArrayList<TopupInfo> topupInfoArrayList = new ArrayList<>();
-
-
         QueryUtils queryUtils = new QueryUtils(mContext);
-        topupInfoArrayList = queryUtils.queryLocalTopupRecord("刘一");
+        String userName = queryUtils.queryUserName();
+        topupInfoArrayList = queryUtils.queryLocalTopupRecord(userName);
 
-        ToastUtils.show(mContext, topupInfoArrayList.get(0).money);
+        /*TextView textView = (TextView) findViewById(R.id.tv_ok);
+        textView.setText(topupInfoArrayList.get(0).time);*/
+
+        TopupRecordAdapter adapter = new TopupRecordAdapter(mContext, topupInfoArrayList);
+        ListView listView = (ListView) findViewById(R.id.lv_parking_record);
+        listView.setAdapter(adapter);
     }
 
 }

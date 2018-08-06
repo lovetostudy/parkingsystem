@@ -4,18 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<ListView
+    <ListView
         android:id="@+id/lv_parking_record"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />-->
+        android:layout_height="wrap_content" />
 
 
-    <TextView
+    <!--<TextView
         android:id="@+id/tv_ok"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="ok"
         android:gravity="center"
         android:textColor="#0f0"
-        android:textSize="50sp" />
+        android:textSize="50sp" />-->
 </LinearLayout>

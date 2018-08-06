@@ -49,15 +49,15 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         mContext = this;
 
-        setEditListener();
+        setLoginListener();
         setReturnListener();
-        setTextListener();
+        setRigsterListener();
     }
 
     /**
      * 检查用户名和密码输入格式是否正确
      */
-    private void setEditListener() {
+    private void setLoginListener() {
 
         /*til_login_username = (TextInputLayout) findViewById(R.id.til_login_username);
         til_login_password = (TextInputLayout) findViewById(R.id.til_login_password);*/
@@ -161,7 +161,7 @@ public class LoginActivity extends BaseActivity {
     /**
      * 设置 textView 的注册点击事件
      */
-    private void setTextListener() {
+    private void setRigsterListener() {
         tv_rigister = (TextView) findViewById(R.id.tv_login_register);
         tv_rigister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,16 +198,12 @@ public class LoginActivity extends BaseActivity {
                     user.balance = response.getDataList().get(0).get("user_balance");
                     user.carState = response.getDataList().get(0).get("user_card_state");
 
-                    boolean result = queryUtils.addUserInfo(user);
-                    if (result = true) {
-                        ToastUtils.show(mContext, "OK");
-                    } else {
-                        ToastUtils.show(mContext, "WRONG");
-                    }
+                    queryUtils.addUserInfo(user);
                 }
                 progressDialog.dismiss();
 
                 String name = queryUtils.queryUserName();
+
                 ToastUtils.show(mContext, "登录成功! " + name + ",欢迎你回来!");
 
                 finish();
