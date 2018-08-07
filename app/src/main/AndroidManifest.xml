@@ -28,6 +28,7 @@
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.ParkingRecordActivity" />
         <activity android:name=".activity.TopupRecordActivity" />
+        <activity android:name=".activity.TopupActivity"></activity>
     </application>
 
 </manifest>
