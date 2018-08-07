@@ -8,8 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import com.parkingsystem.entity.ParkingInfo;
 import com.parkingsystem.entity.TopupInfo;
 import com.parkingsystem.entity.User;
-import com.parkingsystem.entity.UserInfo;
-import com.parkingsystem.logs.LogUtil;
 
 import java.util.ArrayList;
 

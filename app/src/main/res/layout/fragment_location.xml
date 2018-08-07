@@ -30,16 +30,37 @@
     </android.support.v7.widget.Toolbar>
 
     <FrameLayout
-
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/iv_location_piture"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/park"/>
+            android:layout_height="450dp"
+            android:src="@drawable/park" />
     </FrameLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/space_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="剩余车位："
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/space_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="车位数"
+            android:textSize="25sp" />
+    </LinearLayout>
 </LinearLayout>

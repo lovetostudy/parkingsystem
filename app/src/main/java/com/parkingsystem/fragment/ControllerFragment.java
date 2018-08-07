@@ -17,14 +17,15 @@ import android.widget.Button;
 import com.parkingsystem.R;
 import com.parkingsystem.activity.BaseActivity;
 import com.parkingsystem.activity.LoginActivity;
+import com.parkingsystem.activity.TopupActivity;
 import com.parkingsystem.utils.CommonRequest;
 import com.parkingsystem.utils.CommonResponse;
 import com.parkingsystem.utils.QueryUtils;
 import com.parkingsystem.utils.ResponseHandler;
 import com.parkingsystem.utils.ToastUtils;
 
-import static com.parkingsystem.utils.Constant.URL_COTROLLER_ENTER;
-import static com.parkingsystem.utils.Constant.URL_COTROLLER_LEAVE;
+import static com.parkingsystem.utils.Constant.URL_CONTROLLER_ENTER;
+import static com.parkingsystem.utils.Constant.URL_CONTROLLER_LEAVE;
 
 
 public class ControllerFragment extends Fragment {
@@ -105,7 +106,7 @@ public class ControllerFragment extends Fragment {
                                 public void onClick(DialogInterface dialog, int which) {
                                     enterDialog.dismiss();
                                     if (getActivity() instanceof BaseActivity) {
-                                        ((BaseActivity)getActivity()).sendHttpPostRequest(URL_COTROLLER_ENTER, request,
+                                        ((BaseActivity)getActivity()).sendHttpPostRequest(URL_CONTROLLER_ENTER, request,
                                                 new ResponseHandler() {
                                                     @Override
                                                     public void success(CommonResponse response) {
@@ -179,7 +180,7 @@ public class ControllerFragment extends Fragment {
     }
 
     /**
-     * 离开按钮点击事件
+     * 结账离开按钮点击事件
      */
     private void leaveButtonListener() {
         bt_controller_leave.setOnClickListener(new View.OnClickListener() {
@@ -201,10 +202,21 @@ public class ControllerFragment extends Fragment {
                                 public void onClick(DialogInterface dialog, int which) {
                                     leaveDialog.dismiss();
                                     if (getActivity() instanceof BaseActivity) {
-                                        ((BaseActivity)getActivity()).sendHttpPostRequest(URL_COTROLLER_LEAVE, request,
+                                        ((BaseActivity)getActivity()).sendHttpPostRequest(URL_CONTROLLER_LEAVE, request,
                                                 new ResponseHandler() {
                                                     @Override
                                                     public void success(CommonResponse response) {
+                                                        final AlertDialog topupDialog = new AlertDialog.Builder(getContext()).create();
+                                                        topupDialog.setTitle("提醒：");
+                                                        topupDialog.setMessage(response.getResMsg());
+                                                        topupDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定",
+                                                                new DialogInterface.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                                        topupDialog.dismiss();
+                                                                    }
+                                                                });
+                                                        topupDialog.show();
 
                                                         queryUtils.updateCarState("0", userName);
                                                         bt_controller_enter.setText("进入");
@@ -213,9 +225,6 @@ public class ControllerFragment extends Fragment {
                                                         bt_controller_leave.setText("未停车");
                                                         bt_controller_leave.setTextColor(Color.RED);
                                                         bt_controller_leave.setEnabled(false);
-
-                                                        ToastUtils.show(getContext(), "结账");
-                                                        ToastUtils.show(getContext(), "离开停车场");
                                                     }
 
                                                     @Override
@@ -280,31 +289,6 @@ public class ControllerFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                /*if (!"".equals(userName)) {
-                    ToastUtils.show(getContext(), "导航中...");
-                } else {
-                    final AlertDialog loginDialog = new AlertDialog.Builder(getContext()).create();
-                    loginDialog.setTitle("登录提醒: ");
-                    loginDialog.setMessage("您还未登录,是否先登录?");
-                    loginDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确  定",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    loginDialog.dismiss();
-                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                    startActivity(intent);
-                                }
-                            });
-                    loginDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取  消",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    loginDialog.dismiss();
-                                }
-                            });
-                    loginDialog.show();
-                }*/
-
             }
         });
     }
@@ -316,7 +300,8 @@ public class ControllerFragment extends Fragment {
         bt_controller_topup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getContext(), TopupActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -338,7 +323,7 @@ public class ControllerFragment extends Fragment {
         QueryUtils queryUtils = new QueryUtils(getContext());
         userName = queryUtils.queryUserName();
         String state = queryUtils.queryCarState(userName);
-        ToastUtils.show(getContext(), state + " "+ userName);
+
         return state;
     }
 

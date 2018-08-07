@@ -8,7 +8,6 @@ import android.widget.ListView;
 
 import com.parkingsystem.R;
 import com.parkingsystem.entity.User;
-import com.parkingsystem.entity.UserInfo;
 import com.parkingsystem.utils.QueryUtils;
 import com.parkingsystem.adapter.UserInfoAdapter;
 

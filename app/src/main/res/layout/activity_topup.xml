@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.TopupActivity">
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/bt_topup_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EEE685"
+        android:text="@string/topup_im"
+        android:textColor="#3399cc"
+        android:textSize="25sp" />
+</LinearLayout>
