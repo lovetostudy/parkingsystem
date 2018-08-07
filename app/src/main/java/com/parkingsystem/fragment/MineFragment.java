@@ -152,6 +152,9 @@ public class MineFragment extends Fragment {
             tvLogin.setTextColor(Color.BLACK);
             headIcon.setEnabled(false);
             tvLogin.setEnabled(false);
+
+            updateParkingRecord(username);
+            updateTopupRecord(username);
         }
     }
 
@@ -225,57 +228,12 @@ public class MineFragment extends Fragment {
      */
     private void enterParkingRecord() {
         ArrayList<ParkingInfo> parkingInfoArrayList = new ArrayList<>();
-        final QueryUtils queryUtils = new QueryUtils(getContext());
+        QueryUtils queryUtils = new QueryUtils(getContext());
         String userName = queryUtils.queryUserName();
 
         if (!"".equals(userName)) {
-            // 向服务器查询并写入本地数据库
-            final CommonRequest request = new CommonRequest();
-            request.addRequestParam("name", userName);
-
-            if (getActivity() instanceof BaseActivity) {
-                ((BaseActivity) getActivity()).sendHttpPostRequest(URL_MINE_PARKING_RECORD, request,
-                        new ResponseHandler() {
-                            @Override
-                            public void success(CommonResponse response) {
-                                ArrayList<ParkingInfo> parkingInfos = new ArrayList<>();
-
-                                for (int i = 0; i < response.getDataList().size(); i++) {
-                                    ParkingInfo parkingInfo = new ParkingInfo();
-                                    parkingInfo.userName = response.getDataList().get(i).get("user_name");
-                                    parkingInfo.cost = response.getDataList().get(i).get("pl_money");
-                                    parkingInfo.startTime = response.getDataList().get(i).get("pl_start_time");
-                                    parkingInfo.endTime = response.getDataList().get(i).get("pl_end_time");
-
-                                    parkingInfos.add(parkingInfo);
-                                }
-                                boolean reslut = queryUtils.addParkingRecord(parkingInfos);
-
-                                if (reslut == true) {
-                                    Intent intent = new Intent(getActivity(), ParkingRecordActivity.class);
-                                    startActivity(intent);
-                                    ToastUtils.show(getActivity(), "插入成功");
-                                } else {
-                                    ToastUtils.show(getActivity(), "插入失败");
-                                }
-                            }
-
-                            @Override
-                            public void error1(CommonResponse response) {
-
-                            }
-
-                            @Override
-                            public void error2(CommonResponse response) {
-
-                            }
-
-                            @Override
-                            public void fail(String failCode, String failMsg) {
-
-                            }
-                        }, false);
-            }
+            Intent intent = new Intent(getActivity(), ParkingRecordActivity.class);
+            startActivity(intent);
         } else {
             final AlertDialog leaveDialog = new AlertDialog.Builder(getContext()).create();
             leaveDialog.setTitle("登录提醒: ");
@@ -306,7 +264,7 @@ public class MineFragment extends Fragment {
      */
     private void enterTopupRecord() {
         ArrayList<TopupInfo> topupInfoArrayList = new ArrayList<>();
-        final QueryUtils queryUtils = new QueryUtils(getContext());
+        QueryUtils queryUtils = new QueryUtils(getContext());
         String userName = queryUtils.queryUserName();
 
         if ("".equals(userName)) {
@@ -331,53 +289,8 @@ public class MineFragment extends Fragment {
                     });
             leaveDialog.show();
         } else {
-            // 向服务器查询并写入本地数据库
-            final CommonRequest request = new CommonRequest();
-            request.addRequestParam("name", userName);
-            queryUtils.delTopupRecord(userName);
-
-            if (getActivity() instanceof BaseActivity) {
-                ((BaseActivity) getActivity()).sendHttpPostRequest(URL_MINE_TOPUP_RECORD, request,
-                        new ResponseHandler() {
-                            @Override
-                            public void success(CommonResponse response) {
-                                ArrayList<TopupInfo> topupInfos = new ArrayList<>();
-
-                                for (int i = 0; i < response.getDataList().size(); i++) {
-                                    TopupInfo topupInfo = new TopupInfo();
-                                    topupInfo.userName = response.getDataList().get(i).get("user_name");
-                                    topupInfo.money = response.getDataList().get(i).get("tl_money");
-                                    topupInfo.time = response.getDataList().get(i).get("tl_time");
-
-                                    topupInfos.add(topupInfo);
-                                }
-                                boolean reslut = queryUtils.addTopupRecord(topupInfos);
-
-                                if (reslut == true) {
-                                    ToastUtils.show(getActivity(), "插入成功");
-                                    Intent intent = new Intent(getContext(), TopupRecordActivity.class);
-                                    startActivity(intent);
-                                } else {
-                                    ToastUtils.show(getActivity(), "插入失败");
-                                }
-                            }
-
-                            @Override
-                            public void error1(CommonResponse response) {
-
-                            }
-
-                            @Override
-                            public void error2(CommonResponse response) {
-
-                            }
-
-                            @Override
-                            public void fail(String failCode, String failMsg) {
-
-                            }
-                        }, false);
-            }
+            Intent intent = new Intent(getContext(), TopupRecordActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -386,5 +299,107 @@ public class MineFragment extends Fragment {
      */
     private void enterSetting() {
         ToastUtils.show(getContext(), "enterSetting OK");
+    }
+
+    /**
+     * 更新本地停车记录
+     */
+    private void updateParkingRecord(String userName) {
+        // 向服务器查询并写入本地数据库
+        final QueryUtils queryUtils = new QueryUtils(getContext());
+        final CommonRequest request = new CommonRequest();
+        request.addRequestParam("name", userName);
+        queryUtils.delParkingRecord(userName);
+
+        if (getActivity() instanceof BaseActivity) {
+            ((BaseActivity) getActivity()).sendHttpPostRequest(URL_MINE_PARKING_RECORD, request,
+                    new ResponseHandler() {
+                        @Override
+                        public void success(CommonResponse response) {
+                            ArrayList<ParkingInfo> parkingInfos = new ArrayList<>();
+
+                            for (int i = 0; i < response.getDataList().size(); i++) {
+                                ParkingInfo parkingInfo = new ParkingInfo();
+                                parkingInfo.userName = response.getDataList().get(i).get("user_name");
+                                parkingInfo.cost = response.getDataList().get(i).get("pl_money");
+                                parkingInfo.startTime = response.getDataList().get(i).get("pl_start_time");
+                                parkingInfo.endTime = response.getDataList().get(i).get("pl_end_time");
+
+                                parkingInfos.add(parkingInfo);
+                            }
+                            boolean reslut = queryUtils.addParkingRecord(parkingInfos);
+
+                            if (reslut == true) {
+                                ToastUtils.show(getActivity(), "插入成功");
+                            } else {
+                                ToastUtils.show(getActivity(), "插入失败");
+                            }
+                        }
+
+                        @Override
+                        public void error1(CommonResponse response) {
+
+                        }
+
+                        @Override
+                        public void error2(CommonResponse response) {
+
+                        }
+
+                        @Override
+                        public void fail(String failCode, String failMsg) {
+
+                        }
+                    }, false);
+        }
+    }
+
+    private void updateTopupRecord(String userName) {
+        // 向服务器查询并写入本地数据库
+        final QueryUtils queryUtils = new QueryUtils(getContext());
+        final CommonRequest request = new CommonRequest();
+        request.addRequestParam("name", userName);
+        queryUtils.delTopupRecord(userName);
+
+        if (getActivity() instanceof BaseActivity) {
+            ((BaseActivity) getActivity()).sendHttpPostRequest(URL_MINE_TOPUP_RECORD, request,
+                    new ResponseHandler() {
+                        @Override
+                        public void success(CommonResponse response) {
+                            ArrayList<TopupInfo> topupInfos = new ArrayList<>();
+
+                            for (int i = 0; i < response.getDataList().size(); i++) {
+                                TopupInfo topupInfo = new TopupInfo();
+                                topupInfo.userName = response.getDataList().get(i).get("user_name");
+                                topupInfo.money = response.getDataList().get(i).get("tl_money");
+                                topupInfo.time = response.getDataList().get(i).get("tl_time");
+
+                                topupInfos.add(topupInfo);
+                            }
+                            boolean reslut = queryUtils.addTopupRecord(topupInfos);
+
+                            if (reslut == true) {
+                                ToastUtils.show(getActivity(), "插入成功");
+                            } else {
+                                ToastUtils.show(getActivity(), "插入失败");
+                            }
+                        }
+
+                        @Override
+                        public void error1(CommonResponse response) {
+
+                        }
+
+                        @Override
+                        public void error2(CommonResponse response) {
+
+                        }
+
+                        @Override
+                        public void fail(String failCode, String failMsg) {
+
+                        }
+                    }, false);
+        }
     }
 }
