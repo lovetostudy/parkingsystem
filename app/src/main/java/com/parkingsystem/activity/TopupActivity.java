@@ -42,17 +42,11 @@ public class TopupActivity extends BaseActivity {
         userName = queryUtils.queryUserName();
         TextView textView = (TextView) findViewById(R.id.topup_price_name);
 
-        /*TopupAdapter adapter = new TopupAdapter(mContext*//*, getData()*//*);
-        GridView view = (GridView) findViewById(R.id.price_label);
-        view.setAdapter(adapter);*/
-
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.price_label);
         TopupAdapter adapter = new TopupAdapter(mContext, getData());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.setAdapter(adapter);
-
-
 
         btTopupTest = (Button) findViewById(R.id.bt_topup_test);
         topupButtonListener();
@@ -64,12 +58,12 @@ public class TopupActivity extends BaseActivity {
     private ArrayList<TopupItem> getData() {
         ArrayList<TopupItem> list = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
-            TopupItem topupItem = new TopupItem();
-            topupItem.setPrice(ints[i] + "元");
+            String price = ints[i] + "元";
 
-            list.add(topupItem);
+            list.add(new TopupItem(TopupItem.TEXT_TYPE, price));
         }
-
+        /*list.add(new TopupItem(TopupItem.EDIT_TYPE, null));
+*/
         return list;
     }
 

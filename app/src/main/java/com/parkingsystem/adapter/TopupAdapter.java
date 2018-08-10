@@ -2,11 +2,14 @@ package com.parkingsystem.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.parkingsystem.R;
@@ -29,6 +32,7 @@ public class TopupAdapter extends RecyclerView.Adapter<TopupAdapter.ViewHloder>{
         this.arrayList = arrayList;
     }
 
+
     static class ViewHloder extends RecyclerView.ViewHolder {
         TextView priceView;
 
@@ -38,11 +42,67 @@ public class TopupAdapter extends RecyclerView.Adapter<TopupAdapter.ViewHloder>{
         }
     }
 
+    class TextViewHloder extends ViewHloder {
+        TextView priceView;
+        private int lastPressIndex = 1;
+        int position = getAdapterPosition();
+
+
+        public TextViewHloder(final View itemView) {
+            super(itemView);
+
+
+            priceView = (TextView) itemView.findViewById(R.id.tv_num_item);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.e("TAG", "OneViewHolder: ");
+                    int position = getAdapterPosition();
+                    if (lastPressIndex == position) {
+                        lastPressIndex = -1;
+                    } else {
+                        lastPressIndex = position;
+                    }
+                    notifyDataSetChanged();
+
+                    if (getAdapterPosition() == lastPressIndex) {
+                        priceView.setSelected(true);
+                        priceView.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.white));
+
+                    } else {
+                        priceView.setSelected(false);
+                        priceView.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.blue_500));
+                    }
+                }
+
+            });
+
+
+        }
+    }
+
+    static class EditViewHloder extends ViewHloder {
+        EditText priceView;
+
+        public EditViewHloder(View itemView) {
+            super(itemView);
+            priceView = (EditText) itemView.findViewById(R.id.et_price_item);
+        }
+    }
+
     @NonNull
     @Override
     public TopupAdapter.ViewHloder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHloder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.num_item, parent, false));
+        switch (viewType) {
+            case TopupItem.TEXT_TYPE:
+                return new TextViewHloder(LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.num_item, parent, false));
+            case TopupItem.EDIT_TYPE:
+                return new TextViewHloder(LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.edit_item, parent, false));
+        }
+        return null;
     }
 
     @Override
@@ -55,6 +115,16 @@ public class TopupAdapter extends RecyclerView.Adapter<TopupAdapter.ViewHloder>{
     public int getItemCount() {
         return arrayList.size();
     }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position < getItemCount()) {
+            return TopupItem.TEXT_TYPE;
+        } else {
+            return TopupItem.EDIT_TYPE;
+        }
+    }
+
 
 
 
