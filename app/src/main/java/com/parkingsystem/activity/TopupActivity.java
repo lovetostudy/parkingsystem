@@ -4,20 +4,33 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
+import android.widget.TextView;
 
 import com.parkingsystem.R;
+import com.parkingsystem.adapter.TopupAdapter;
+import com.parkingsystem.entity.TopupItem;
 import com.parkingsystem.utils.CommonRequest;
 import com.parkingsystem.utils.CommonResponse;
 import com.parkingsystem.utils.QueryUtils;
 import com.parkingsystem.utils.ResponseHandler;
+
+import java.util.ArrayList;
 
 import static com.parkingsystem.utils.Constant.URL_CONTROLLER_TOPUP;
 
 public class TopupActivity extends BaseActivity {
 
     private Context mContext;
+    private Button btTopupTest;
+    private String userName;
+
+    private int[] ints = {5, 10, 20, 50, 100, 200, 500, 1000};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +39,44 @@ public class TopupActivity extends BaseActivity {
         mContext = this;
 
         QueryUtils queryUtils = new QueryUtils(mContext);
-        final String userName = queryUtils.queryUserName();
+        userName = queryUtils.queryUserName();
+        TextView textView = (TextView) findViewById(R.id.topup_price_name);
 
-        Button btTopupTest = (Button) findViewById(R.id.bt_topup_test);
+        /*TopupAdapter adapter = new TopupAdapter(mContext*//*, getData()*//*);
+        GridView view = (GridView) findViewById(R.id.price_label);
+        view.setAdapter(adapter);*/
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.price_label);
+        TopupAdapter adapter = new TopupAdapter(mContext, getData());
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerView.setAdapter(adapter);
+
+
+
+        btTopupTest = (Button) findViewById(R.id.bt_topup_test);
+        topupButtonListener();
+    }
+
+    /**
+     * 设置 recyclerView 填充的数据
+     */
+    private ArrayList<TopupItem> getData() {
+        ArrayList<TopupItem> list = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            TopupItem topupItem = new TopupItem();
+            topupItem.setPrice(ints[i] + "元");
+
+            list.add(topupItem);
+        }
+
+        return list;
+    }
+
+    /**
+     * 设置充值点击事件
+     */
+    private void topupButtonListener() {
         btTopupTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
