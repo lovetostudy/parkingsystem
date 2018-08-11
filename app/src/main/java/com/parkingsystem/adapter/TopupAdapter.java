@@ -23,9 +23,19 @@ import java.util.List;
 
 public class TopupAdapter extends RecyclerView.Adapter<TopupAdapter.ViewHloder>{
 
+    private int FLAG = 0;
+
     private Context mContext;
 
     private ArrayList<TopupItem> arrayList;
+
+    public void replaceAll(ArrayList<TopupItem> list) {
+        arrayList.clear();
+        if (list != null && list.size() > 0) {
+            arrayList.addAll(list);
+        }
+        notifyDataSetChanged();
+    }
 
     public TopupAdapter(Context context, ArrayList<TopupItem> arrayList) {
         this.mContext = context;
@@ -54,8 +64,9 @@ public class TopupAdapter extends RecyclerView.Adapter<TopupAdapter.ViewHloder>{
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.e("TAG", "OneViewHolder: ");
+
                     int position = getAdapterPosition();
+                    Log.e("TAG", "OneViewHolder: " + position);
                     if (lastPressIndex == position) {
                         lastPressIndex = -1;
                     } else {
@@ -63,7 +74,7 @@ public class TopupAdapter extends RecyclerView.Adapter<TopupAdapter.ViewHloder>{
                     }
                     notifyDataSetChanged();
 
-                    if (getAdapterPosition() == lastPressIndex) {
+                    if (getAdapterPosition() != lastPressIndex) {
                         priceView.setSelected(true);
                         priceView.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.white));
 
@@ -71,13 +82,12 @@ public class TopupAdapter extends RecyclerView.Adapter<TopupAdapter.ViewHloder>{
                         priceView.setSelected(false);
                         priceView.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.blue_500));
                     }
+                    Log.e("TAG", "OneViewHolder: " + getAdapterPosition() + "  ok");
+                    Log.e("TAG", "OneViewHolder: " + lastPressIndex + "  ok");
+
                 }
 
             });
-        }
-
-        public void notifyDataSetChanged() {
-
         }
 
     }
