@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.parkingsystem.R;
 import com.parkingsystem.adapter.TopupAdapter;
 import com.parkingsystem.entity.TopupItem;
+import com.parkingsystem.entity.User;
 import com.parkingsystem.utils.CommonRequest;
 import com.parkingsystem.utils.CommonResponse;
 import com.parkingsystem.utils.QueryUtils;
@@ -30,6 +31,7 @@ public class TopupActivity extends BaseActivity {
     private Context mContext;
     private Button btTopupTest;
     private String userName;
+    private User user;
 
     private int[] ints = {10, 20, 50, 100, 200, 300, 400, 500};
     private EditText etTopupMoney;
@@ -42,7 +44,13 @@ public class TopupActivity extends BaseActivity {
 
         QueryUtils queryUtils = new QueryUtils(mContext);
         userName = queryUtils.queryUserName();
-        TextView textView = (TextView) findViewById(R.id.topup_price_name);
+        user = queryUtils.queryUserInfo(userName);
+
+        TextView account = (TextView) findViewById(R.id.topup_account_value);
+        TextView balance = (TextView) findViewById(R.id.topup_balance_value);
+        /*TextView textView = (TextView) findViewById(R.id.topup_price_name);*/
+        account.setText(user.username);
+        balance.setText(user.balance);
 
         /*RecyclerView recyclerView = (RecyclerView) findViewById(R.id.price_label);
         TopupAdapter adapter = new TopupAdapter(mContext, getData());
@@ -108,6 +116,7 @@ public class TopupActivity extends BaseActivity {
                                                         @Override
                                                         public void onClick(DialogInterface dialogInterface, int i) {
                                                             topupDialog.dismiss();
+                                                            finish();
                                                         }
                                                     });
                                             topupDialog.show();

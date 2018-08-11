@@ -172,9 +172,6 @@ public class ControllerFragment extends Fragment {
                             });
                     loginDialog.show();
                 }
-
-
-
             }
         });
     }
@@ -300,8 +297,33 @@ public class ControllerFragment extends Fragment {
         bt_controller_topup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), TopupActivity.class);
-                startActivity(intent);
+                final QueryUtils queryUtils = new QueryUtils(getContext());
+                userName = queryUtils.queryUserName();
+
+                if (!"".equals(userName)) {
+                    Intent intent = new Intent(getContext(), TopupActivity.class);
+                    startActivity(intent);
+                } else {
+                    final AlertDialog loginDialog = new AlertDialog.Builder(getContext()).create();
+                    loginDialog.setTitle("登录提醒: ");
+                    loginDialog.setMessage("您还未登录,是否先登录?");
+                    loginDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确  定",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    loginDialog.dismiss();
+                                    enterLoginActivity();
+                                }
+                            });
+                    loginDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取  消",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    loginDialog.dismiss();
+                                }
+                            });
+                    loginDialog.show();
+                }
             }
         });
     }
