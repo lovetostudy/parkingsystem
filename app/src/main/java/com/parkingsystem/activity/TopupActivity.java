@@ -30,7 +30,7 @@ public class TopupActivity extends BaseActivity {
     private Button btTopupTest;
     private String userName;
 
-    private int[] ints = {5, 10, 20, 50, 100, 200, 500, 1000};
+    private int[] ints = {10, 20, 50, 100, 200, 300, 400, 500};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

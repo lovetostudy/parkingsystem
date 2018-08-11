@@ -44,13 +44,10 @@ public class TopupAdapter extends RecyclerView.Adapter<TopupAdapter.ViewHloder>{
 
     class TextViewHloder extends ViewHloder {
         TextView priceView;
-        private int lastPressIndex = 1;
-        int position = getAdapterPosition();
-
+        private int lastPressIndex = -1;
 
         public TextViewHloder(final View itemView) {
             super(itemView);
-
 
             priceView = (TextView) itemView.findViewById(R.id.tv_num_item);
 
@@ -77,9 +74,12 @@ public class TopupAdapter extends RecyclerView.Adapter<TopupAdapter.ViewHloder>{
                 }
 
             });
+        }
 
+        public void notifyDataSetChanged() {
 
         }
+
     }
 
     static class EditViewHloder extends ViewHloder {
