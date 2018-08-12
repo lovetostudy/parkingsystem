@@ -34,17 +34,6 @@ public class HomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        /*if (ContextCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-        } else if (ContextCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS)
-                != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS},1);
-        } else if (ContextCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
-        } */
-
         initTabItemData();
     }
 

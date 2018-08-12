@@ -29,16 +29,61 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="450dp"
+        android:background="@drawable/park">
 
         <ImageView
-            android:id="@+id/iv_location_piture"
-            android:layout_width="match_parent"
-            android:layout_height="450dp"
-            android:src="@drawable/park" />
-    </FrameLayout>
+            android:id="@+id/car_one"
+            android:layout_width="90dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="235dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/car_model" />
+
+        <ImageView
+            android:id="@+id/car_two"
+            android:layout_width="90dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="235dp"
+            android:layout_marginTop="73dp"
+            android:src="@drawable/car_model" />
+
+        <ImageView
+            android:id="@+id/car_three"
+            android:layout_width="90dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="235dp"
+            android:layout_marginTop="130dp"
+
+            android:src="@drawable/car_model" />
+
+        <ImageView
+            android:id="@+id/car_four"
+            android:layout_width="90dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="235dp"
+            android:layout_marginTop="277dp"
+            android:src="@drawable/car_model" />
+
+        <ImageView
+            android:id="@+id/car_five"
+            android:layout_width="90dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="235dp"
+            android:layout_marginTop="330dp"
+            android:src="@drawable/car_model" />
+
+        <ImageView
+            android:id="@+id/car_six"
+            android:layout_width="90dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="235dp"
+            android:layout_marginTop="383dp"
+            android:src="@drawable/car_model" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,6 +103,7 @@
             android:id="@+id/space_number"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:gravity="left"
             android:text="车位数"

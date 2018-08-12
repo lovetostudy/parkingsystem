@@ -1,8 +1,6 @@
 package com.parkingsystem.fragment;
 
 
-
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,6 +21,8 @@ import com.parkingsystem.utils.CommonResponse;
 import com.parkingsystem.utils.ResponseHandler;
 import com.parkingsystem.utils.ToastUtils;
 
+import java.util.ArrayList;
+
 import static com.parkingsystem.utils.Constant.URL_CONTROLLER_LEAVE;
 import static com.parkingsystem.utils.Constant.URL_LOCATION_INFO;
 
@@ -30,13 +30,26 @@ public class LocationFragment extends Fragment {
 
     private TextView spaceLabel;
     private TextView spaceNumber;
+    private ImageView carOne;
+    private ImageView carTwo;
+    private ImageView carThree;
+    private ImageView carFour;
+    private ImageView carFive;
+    private ImageView carSix;
+
+    private String[] parkingStateList = {"0", "1", "1", "1", "0", "1"};
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_location, container, false);
 
-        ImageView imageView = (ImageView) view.findViewById(R.id.iv_location_piture);
+        carOne = (ImageView) view.findViewById(R.id.car_one);
+        carTwo = (ImageView) view.findViewById(R.id.car_two);
+        carThree = (ImageView) view.findViewById(R.id.car_three);
+        carFour = (ImageView) view.findViewById(R.id.car_four);
+        carFive = (ImageView) view.findViewById(R.id.car_five);
+        carSix = (ImageView) view.findViewById(R.id.car_six);
         spaceLabel = (TextView) view.findViewById(R.id.space_label);
         spaceNumber = (TextView) view.findViewById(R.id.space_number);
 
@@ -51,13 +64,14 @@ public class LocationFragment extends Fragment {
         final CommonRequest request = new CommonRequest();
 
         if (getActivity() instanceof BaseActivity) {
-            ((BaseActivity)getActivity()).sendHttpPostRequest(URL_LOCATION_INFO, request,
+            ((BaseActivity) getActivity()).sendHttpPostRequest(URL_LOCATION_INFO, request,
                     new ResponseHandler() {
                         @Override
                         public void success(CommonResponse response) {
                             int number = 0;
-                            for (int i = 0; i < response.getDataList().size(); i++) {
-                                if ("1".equals(response.getDataList().get(i).get("park_state"))) {
+                            for (int i = 0; i < parkingStateList.length; i++) {
+                                if ("1".equals(parkingStateList[i])) {
+                                    setCarState(i+1);
                                     number++;
                                 }
                             }
@@ -79,6 +93,35 @@ public class LocationFragment extends Fragment {
                             ToastUtils.show(getActivity(), "结账失败,请重试!");
                         }
                     }, false);
+        }
+    }
+
+    /**
+     * 设置车位可见与否
+     *
+     * @param i
+     */
+    private void setCarState(int i) {
+        switch (i) {
+            case 1:
+                carOne.setVisibility(View.GONE);
+                break;
+            case 2:
+                carTwo.setVisibility(View.GONE);
+                break;
+            case 3:
+                carThree.setVisibility(View.GONE);
+                break;
+            case 4:
+                carFour.setVisibility(View.GONE);
+                break;
+            case 5:
+                carFive.setVisibility(View.GONE);
+                break;
+            case 6:
+                carSix.setVisibility(View.GONE);
+                break;
+            default:
         }
     }
 }
