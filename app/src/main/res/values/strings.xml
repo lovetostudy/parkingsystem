@@ -40,4 +40,6 @@
     <string name="login_tip">点击登录</string>
     <string name="topup_im">立即充值</string>
     <string name="balance">余 额:</string>
+    <string name="my_location">我在哪儿</string>
+    <string name="navigate_start">开始导航</string>
 </resources>

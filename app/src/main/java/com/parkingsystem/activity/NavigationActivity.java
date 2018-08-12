@@ -10,6 +10,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -25,6 +27,8 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.parkingsystem.R;
 
@@ -33,17 +37,34 @@ import java.util.List;
 
 public class NavigationActivity extends AppCompatActivity {
 
+    private int isFirsIn = 0;
+
     public LocationClient mLocationClient;
 
     private MapView mMapView = null;
 
     private BaiduMap mBaiduMap = null;
 
+    private Button locateToLocation;
+
+    private Button startNavigation;
+
+
     private BDLocationListener mListener = new MyLocationListener();
 
     private List<String> permissionList = new ArrayList<>();
 
     private Marker mMarker;
+
+    //定位相关
+    private double mLatitude;
+
+    private double mLongitude;
+
+    private LatLng mLastLocationData;
+
+    private LatLng mDestLocationData;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +88,26 @@ public class NavigationActivity extends AppCompatActivity {
         //注册一个回调用的Listener
         mLocationClient.registerLocationListener(mListener);
 
+        locateToLocation = (Button) findViewById(R.id.bt_my_location);
+        startNavigation = (Button) findViewById(R.id.bt_real_nav);
+
+        mBaiduMap.setOnMapLongClickListener(new BaiduMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                mDestLocationData = latLng;
+                addDestInfoOverlay(latLng);
+            }
+        });
+
+        locateMyLocation();
         //配置一些参数
         initLocationClient();
         //检查权限
         checkPermissionState();
+    }
+
+    private void addDestInfoOverlay(LatLng latLng) {
+        mBaiduMap.clear();
     }
 
     /**
@@ -117,7 +154,7 @@ public class NavigationActivity extends AppCompatActivity {
 
         //设置定位间隔，默认为0，即只定位1次
         //此处设置定位请求的间隔大于等于10000ms
-        option.setScanSpan(30000);
+        option.setScanSpan(1000);
 
         //设置是否需要地址信息，默认不需要
         option.setIsNeedAddress(true);
@@ -171,6 +208,21 @@ public class NavigationActivity extends AppCompatActivity {
         mMapView.onDestroy();
     }
 
+    /**
+     * 定位到我的位置
+     */
+    private void locateMyLocation() {
+
+        locateToLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LatLng latLng = new LatLng(mLatitude, mLongitude);
+                MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newLatLng(latLng);
+                mBaiduMap.animateMapStatus(mapStatusUpdate);
+            }
+        });
+    }
+
     private class MyLocationListener implements BDLocationListener {
         @Override
         public void onReceiveLocation(BDLocation bdLocation) {
@@ -180,8 +232,12 @@ public class NavigationActivity extends AppCompatActivity {
             Log.d("ZJTest", "onReceiveLocation: " + bdLocation.getLocType());
 
             //我在这里利用经度、纬度信息构建坐标点
-            LatLng point = new LatLng(bdLocation.getLatitude(),
-                    bdLocation.getLongitude());
+            mLatitude = bdLocation.getLatitude();
+            mLongitude = bdLocation.getLongitude();
+            LatLng point = new LatLng(mLatitude,
+                    mLongitude);
+
+
 
             //创建一个新的MapStatus
             MapStatus mapStatus = new MapStatus.Builder()
@@ -190,10 +246,15 @@ public class NavigationActivity extends AppCompatActivity {
                     //决定缩放的尺寸
                     .zoom(16)
                     .build();
-            //利用MapStatus构建一个MapStatusUpdate对象
-            MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus);
-            //更新BaiduMap，此时BaiduMap的界面就会从初始位置（北京），移动到定位点
-            mBaiduMap.setMapStatus(mapStatusUpdate);
+
+            if (isFirsIn != 2) {
+                //利用MapStatus构建一个MapStatusUpdate对象
+                MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus);
+                //更新BaiduMap，此时BaiduMap的界面就会从初始位置（北京），移动到定位点
+                mBaiduMap.setMapStatus(mapStatusUpdate);
+                isFirsIn++;
+            }
+
 
             //得到定位使用的图标
             Bitmap origin = BitmapFactory.decodeResource(

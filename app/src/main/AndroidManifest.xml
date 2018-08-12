@@ -42,7 +42,7 @@
         <activity android:name=".activity.ParkingRecordActivity" />
         <activity android:name=".activity.TopupRecordActivity" />
         <activity android:name=".activity.TopupActivity" />
-        <activity android:name=".activity.NavigationActivity"></activity>
+        <activity android:name=".activity.NavigationActivity" />
 
         <service android:name="com.baidu.location.f"
             android:enabled="true"
