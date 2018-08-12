@@ -329,11 +329,11 @@ public class MineFragment extends Fragment {
                             }
                             boolean reslut = queryUtils.addParkingRecord(parkingInfos);
 
-                            if (reslut == true) {
+                            /*if (reslut == true) {
                                 ToastUtils.show(getActivity(), "插入成功");
                             } else {
                                 ToastUtils.show(getActivity(), "插入失败");
-                            }
+                            }*/
                         }
 
                         @Override
@@ -378,11 +378,11 @@ public class MineFragment extends Fragment {
                             }
                             boolean reslut = queryUtils.addTopupRecord(topupInfos);
 
-                            if (reslut == true) {
+                            /*if (reslut == true) {
                                 ToastUtils.show(getActivity(), "插入成功");
                             } else {
                                 ToastUtils.show(getActivity(), "插入失败");
-                            }
+                            }*/
                         }
 
                         @Override

@@ -135,6 +135,8 @@
         android:id="@+id/bt_topup_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:background="#fb8139"
         android:text="@string/topup_im"
         android:textColor="#f8f5f2"

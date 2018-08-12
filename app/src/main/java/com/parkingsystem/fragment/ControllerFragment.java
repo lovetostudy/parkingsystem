@@ -17,6 +17,7 @@ import android.widget.Button;
 import com.parkingsystem.R;
 import com.parkingsystem.activity.BaseActivity;
 import com.parkingsystem.activity.LoginActivity;
+import com.parkingsystem.activity.NavigationActivity;
 import com.parkingsystem.activity.TopupActivity;
 import com.parkingsystem.utils.CommonRequest;
 import com.parkingsystem.utils.CommonResponse;
@@ -285,7 +286,8 @@ public class ControllerFragment extends Fragment {
         bt_controller_navigation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getContext(), NavigationActivity.class);
+                startActivity(intent);
             }
         });
     }
