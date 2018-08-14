@@ -37,7 +37,7 @@ public class LocationFragment extends Fragment {
     private ImageView carFive;
     private ImageView carSix;
 
-    private String[] parkingStateList = {"0", "1", "1", "1", "0", "1"};
+/*    private String[] parkingStateList = {"0", "1", "1", "1", "0", "1"};*/
 
     @Nullable
     @Override

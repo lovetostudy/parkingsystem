@@ -21,6 +21,7 @@ import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -30,12 +31,26 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.RouteLine;
+import com.baidu.mapapi.search.route.BikingRouteResult;
+import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
+import com.baidu.mapapi.search.route.DrivingRouteResult;
+import com.baidu.mapapi.search.route.IndoorRouteResult;
+import com.baidu.mapapi.search.route.MassTransitRouteResult;
+import com.baidu.mapapi.search.route.OnGetRoutePlanResultListener;
+import com.baidu.mapapi.search.route.PlanNode;
+import com.baidu.mapapi.search.route.RoutePlanSearch;
+import com.baidu.mapapi.search.route.TransitRouteResult;
+import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.parkingsystem.R;
+import com.parkingsystem.utils.overlayutil.DrivingRouteOverlay;
+import com.parkingsystem.utils.overlayutil.OverlayManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NavigationActivity extends AppCompatActivity {
+public class NavigationActivity extends AppCompatActivity implements BaiduMap.OnMapClickListener,
+        OnGetRoutePlanResultListener {
 
     private int isFirsIn = 0;
 
@@ -64,6 +79,13 @@ public class NavigationActivity extends AppCompatActivity {
     private LatLng mLastLocationData;
 
     private LatLng mDestLocationData;
+
+    // 路线规划
+    RoutePlanSearch mSearch = null;    // 搜索模块，也可去掉地图模块独立使用
+
+    RouteLine route = null; //路线
+
+    OverlayManager routeOverlay = null; // 该类提供一个能够显示和管理多个overlay的基类
 
 
     @Override
@@ -99,11 +121,16 @@ public class NavigationActivity extends AppCompatActivity {
             }
         });
 
-        locateMyLocation();
-        //配置一些参数
-        initLocationClient();
         //检查权限
         checkPermissionState();
+        //配置一些参数
+        initLocationClient();
+        //定位现在的位置
+        locateMyLocation();
+        // 初始化搜索模块，注册事件监听
+        mSearch = RoutePlanSearch.newInstance();
+        mSearch.setOnGetRoutePlanResultListener(this);
+
     }
 
     private void addDestInfoOverlay(LatLng latLng) {
@@ -138,7 +165,7 @@ public class NavigationActivity extends AppCompatActivity {
 
     /**
      * 设置地图基本配置
-      */
+     */
     private void initLocationClient() {
         //创建option实例
         //option有很多默认设置，可以按需变更
@@ -223,6 +250,128 @@ public class NavigationActivity extends AppCompatActivity {
         });
     }
 
+    OnGetRoutePlanResultListener listener = new OnGetRoutePlanResultListener() {
+        @Override
+        public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
+
+        }
+
+        @Override
+        public void onGetTransitRouteResult(TransitRouteResult transitRouteResult) {
+
+        }
+
+        @Override
+        public void onGetMassTransitRouteResult(MassTransitRouteResult massTransitRouteResult) {
+
+        }
+
+        @Override
+        public void onGetDrivingRouteResult(DrivingRouteResult result) {
+            route = result.getRouteLines().get(0);
+            DrivingRouteOverlay overlay = new MyDrivingRouteOverlay(mBaiduMap);
+            routeOverlay = overlay;
+            mBaiduMap.setOnMarkerClickListener(overlay);
+            overlay.setData(result.getRouteLines().get(0));  //设置路线数据
+            overlay.addToMap(); //将所有overlay添加到地图中
+            overlay.zoomToSpan();//缩放地图
+        }
+
+        @Override
+        public void onGetIndoorRouteResult(IndoorRouteResult indoorRouteResult) {
+
+        }
+
+        @Override
+        public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
+
+        }
+    };
+
+    /**
+     * 发起路线规划搜索示例
+     *
+     * @param v
+     */
+    public void searchButtonProcess(View v) {
+        route = null;
+        // 设置起终点信息，对于tranist search 来说，城市名无意义
+        PlanNode stNode = PlanNode.withLocation(new LatLng(mLatitude, mLongitude));
+        PlanNode enNode = PlanNode.withLocation(new LatLng(114.935048,25.860444));
+
+        // 实际使用中请对起点终点城市进行正确的设定
+
+            //驾车行驶
+        mSearch.drivingSearch((new DrivingRoutePlanOption())
+                .from(stNode).to(enNode));
+
+    }
+
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+
+    }
+
+    @Override
+    public boolean onMapPoiClick(MapPoi mapPoi) {
+        return false;
+    }
+
+
+    @Override
+    public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
+
+    }
+
+    @Override
+    public void onGetTransitRouteResult(TransitRouteResult transitRouteResult) {
+
+    }
+
+    @Override
+    public void onGetMassTransitRouteResult(MassTransitRouteResult massTransitRouteResult) {
+
+    }
+
+    @Override
+    public void onGetDrivingRouteResult(DrivingRouteResult drivingRouteResult) {
+
+    }
+
+    @Override
+    public void onGetIndoorRouteResult(IndoorRouteResult indoorRouteResult) {
+
+    }
+
+    @Override
+    public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
+
+    }
+
+    /**
+     * 用于显示一条驾车路线的overlay，自3.4.0版本起可实例化多个添加在地图中显示，当数据中包含路况数据时，则默认使用路况纹理分段绘制
+     */
+    // 定制RouteOverly
+    private class MyDrivingRouteOverlay extends DrivingRouteOverlay {
+
+        public MyDrivingRouteOverlay(BaiduMap baiduMap) {
+            super(baiduMap);
+        }
+
+        @Override
+        public BitmapDescriptor getStartMarker() {
+            return BitmapDescriptorFactory.fromResource(R.drawable.navi_map_gps_locked);
+
+        }
+
+        @Override
+        public BitmapDescriptor getTerminalMarker() {
+            return BitmapDescriptorFactory.fromResource(R.drawable.navi_map_gps_locked);
+        }
+    }
+
+
     private class MyLocationListener implements BDLocationListener {
         @Override
         public void onReceiveLocation(BDLocation bdLocation) {
@@ -247,7 +396,7 @@ public class NavigationActivity extends AppCompatActivity {
                     .zoom(16)
                     .build();
 
-            if (isFirsIn != 2) {
+            if (isFirsIn != 3) {
                 //利用MapStatus构建一个MapStatusUpdate对象
                 MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus);
                 //更新BaiduMap，此时BaiduMap的界面就会从初始位置（北京），移动到定位点
