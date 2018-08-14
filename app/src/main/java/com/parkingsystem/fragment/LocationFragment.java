@@ -69,9 +69,9 @@ public class LocationFragment extends Fragment {
                         @Override
                         public void success(CommonResponse response) {
                             int number = 0;
-                            for (int i = 0; i < parkingStateList.length; i++) {
-                                if ("1".equals(parkingStateList[i])) {
-                                    setCarState(i+1);
+                            for (int i = 0; i < response.getDataList().size(); i++) { // 0表示空余
+                                if ("0".equals(response.getDataList().get(i).get("park_state"))) {
+                                    setCarState(response.getDataList().get(i).get("park_id"));
                                     number++;
                                 }
                             }
@@ -101,24 +101,24 @@ public class LocationFragment extends Fragment {
      *
      * @param i
      */
-    private void setCarState(int i) {
+    private void setCarState(String i) {
         switch (i) {
-            case 1:
+            case "8888":
                 carOne.setVisibility(View.GONE);
                 break;
-            case 2:
+            case "6666":
                 carTwo.setVisibility(View.GONE);
                 break;
-            case 3:
+            case "5555":
                 carThree.setVisibility(View.GONE);
                 break;
-            case 4:
+            case "3333":
                 carFour.setVisibility(View.GONE);
                 break;
-            case 5:
+            case "2222":
                 carFive.setVisibility(View.GONE);
                 break;
-            case 6:
+            case "1111":
                 carSix.setVisibility(View.GONE);
                 break;
             default:
