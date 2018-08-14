@@ -2,12 +2,19 @@ package com.parkingsystem.fragment;
 
 
 import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +23,12 @@ import android.widget.TextView;
 
 import com.parkingsystem.R;
 import com.parkingsystem.activity.BaseActivity;
+import com.parkingsystem.entity.CarInfo;
+import com.parkingsystem.logs.LogUtil;
 import com.parkingsystem.utils.CommonRequest;
 import com.parkingsystem.utils.CommonResponse;
 import com.parkingsystem.utils.ResponseHandler;
 import com.parkingsystem.utils.ToastUtils;
-
-import java.util.ArrayList;
 
 import static com.parkingsystem.utils.Constant.URL_CONTROLLER_LEAVE;
 import static com.parkingsystem.utils.Constant.URL_LOCATION_INFO;
@@ -36,8 +43,6 @@ public class LocationFragment extends Fragment {
     private ImageView carFour;
     private ImageView carFive;
     private ImageView carSix;
-
-/*    private String[] parkingStateList = {"0", "1", "1", "1", "0", "1"};*/
 
     @Nullable
     @Override
@@ -54,6 +59,14 @@ public class LocationFragment extends Fragment {
         spaceNumber = (TextView) view.findViewById(R.id.space_number);
 
         updateLocationInfo();
+
+        spaceLabel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateLocationInfo();
+            }
+        });
+
         return view;
     }
 
@@ -62,13 +75,13 @@ public class LocationFragment extends Fragment {
      */
     private void updateLocationInfo() {
         final CommonRequest request = new CommonRequest();
-
         if (getActivity() instanceof BaseActivity) {
             ((BaseActivity) getActivity()).sendHttpPostRequest(URL_LOCATION_INFO, request,
                     new ResponseHandler() {
                         @Override
                         public void success(CommonResponse response) {
                             int number = 0;
+
                             for (int i = 0; i < response.getDataList().size(); i++) { // 0表示空余
                                 if ("0".equals(response.getDataList().get(i).get("park_state"))) {
                                     setCarState(response.getDataList().get(i).get("park_id"));

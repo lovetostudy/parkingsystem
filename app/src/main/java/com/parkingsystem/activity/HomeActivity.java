@@ -35,6 +35,8 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
 
         initTabItemData();
+
+
     }
 
     /**

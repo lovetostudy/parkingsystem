@@ -40,7 +40,8 @@
             android:layout_height="55dp"
             android:layout_marginLeft="235dp"
             android:layout_marginTop="15dp"
-            android:src="@drawable/car_model" />
+            android:src="@drawable/car_model"
+            android:clickable="true"/>
 
         <ImageView
             android:id="@+id/car_two"
@@ -97,7 +98,8 @@
             android:layout_weight="1"
             android:gravity="right"
             android:text="剩余车位："
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:clickable="true"/>
 
         <TextView
             android:id="@+id/space_number"
@@ -105,7 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:gravity="left"
+            android:gravity="center"
             android:text="车位数"
             android:textSize="25sp" />
     </LinearLayout>

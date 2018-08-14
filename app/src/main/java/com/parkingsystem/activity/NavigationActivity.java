@@ -17,6 +17,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.location.Poi;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -31,7 +32,15 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.busline.BusLineResult;
+import com.baidu.mapapi.search.busline.BusLineSearch;
+import com.baidu.mapapi.search.busline.OnGetBusLineSearchResultListener;
 import com.baidu.mapapi.search.core.RouteLine;
+import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
+import com.baidu.mapapi.search.poi.PoiDetailResult;
+import com.baidu.mapapi.search.poi.PoiIndoorResult;
+import com.baidu.mapapi.search.poi.PoiResult;
+import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.route.BikingRouteResult;
 import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
 import com.baidu.mapapi.search.route.DrivingRouteResult;
@@ -50,7 +59,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NavigationActivity extends AppCompatActivity implements BaiduMap.OnMapClickListener,
-        OnGetRoutePlanResultListener {
+        OnGetRoutePlanResultListener, OnGetPoiSearchResultListener, OnGetBusLineSearchResultListener {
 
     private int isFirsIn = 0;
 
@@ -86,6 +95,13 @@ public class NavigationActivity extends AppCompatActivity implements BaiduMap.On
     RouteLine route = null; //路线
 
     OverlayManager routeOverlay = null; // 该类提供一个能够显示和管理多个overlay的基类
+
+    // 创建poi对象
+    private PoiSearch mPoiSearch;
+
+    private BusLineSearch mBusLineSearch;
+
+    private String busLineId;
 
 
     @Override
@@ -131,6 +147,14 @@ public class NavigationActivity extends AppCompatActivity implements BaiduMap.On
         mSearch = RoutePlanSearch.newInstance();
         mSearch.setOnGetRoutePlanResultListener(this);
 
+        // 创建poi检索实例
+        mPoiSearch = PoiSearch.newInstance();
+
+        mBusLineSearch = BusLineSearch.newInstance();
+
+        mBusLineSearch.setOnGetBusLineSearchResultListener(this);
+
+        mPoiSearch.setOnGetPoiSearchResultListener(this);
     }
 
     private void addDestInfoOverlay(LatLng latLng) {
@@ -250,7 +274,7 @@ public class NavigationActivity extends AppCompatActivity implements BaiduMap.On
         });
     }
 
-    OnGetRoutePlanResultListener listener = new OnGetRoutePlanResultListener() {
+   /* OnGetRoutePlanResultListener listener = new OnGetRoutePlanResultListener() {
         @Override
         public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
 
@@ -286,7 +310,7 @@ public class NavigationActivity extends AppCompatActivity implements BaiduMap.On
         public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
 
         }
-    };
+    };*/
 
     /**
      * 发起路线规划搜索示例
@@ -335,8 +359,14 @@ public class NavigationActivity extends AppCompatActivity implements BaiduMap.On
     }
 
     @Override
-    public void onGetDrivingRouteResult(DrivingRouteResult drivingRouteResult) {
-
+    public void onGetDrivingRouteResult(DrivingRouteResult result) {
+        route = result.getRouteLines().get(0);
+        DrivingRouteOverlay overlay = new MyDrivingRouteOverlay(mBaiduMap);
+        routeOverlay = overlay;
+        mBaiduMap.setOnMarkerClickListener(overlay);
+        overlay.setData(result.getRouteLines().get(0));  //设置路线数据
+        overlay.addToMap(); //将所有overlay添加到地图中
+        overlay.zoomToSpan();//缩放地图
     }
 
     @Override
@@ -346,6 +376,26 @@ public class NavigationActivity extends AppCompatActivity implements BaiduMap.On
 
     @Override
     public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
+
+    }
+
+    @Override
+    public void onGetBusLineResult(BusLineResult result) {
+
+    }
+
+    @Override
+    public void onGetPoiResult(PoiResult poiResult) {
+
+    }
+
+    @Override
+    public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
+
+    }
+
+    @Override
+    public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
 
     }
 

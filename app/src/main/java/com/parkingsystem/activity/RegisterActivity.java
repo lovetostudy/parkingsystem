@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.parkingsystem.R;
@@ -40,6 +41,8 @@ public class RegisterActivity extends BaseActivity {
     private RadioGroup rg_register_gender;
     private Button bt_register_back;
     private Button bt_register_confirm;
+    private Spinner sp_car_card_type;
+    private Spinner sp_car_card_letter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,8 @@ public class RegisterActivity extends BaseActivity {
         et_register_real_name = (EditText) findViewById(R.id.et_register_real_name);
         rg_register_gender = (RadioGroup) findViewById(R.id.rg_register_gender);
         et_register_car_card = (EditText) findViewById(R.id.et_register_car_card);
+        sp_car_card_type = (Spinner) findViewById(R.id.type_spinner);
+        sp_car_card_letter = (Spinner) findViewById(R.id.letter_spinner);
         et_register_phone = (EditText) findViewById(R.id.et_register_phone);
         bt_register_back = (Button) findViewById(R.id.bt_register_cancel);
         bt_register_confirm = (Button) findViewById(R.id.bt_register_confirm);
@@ -72,7 +77,9 @@ public class RegisterActivity extends BaseActivity {
                 String password = et_register_password.getText().toString();
                 String re_password = et_register_re_password.getText().toString();
                 String real_name = et_register_real_name.getText().toString();
-                String car_card = et_register_car_card.getText().toString();
+                String car_card = sp_car_card_type.getSelectedItem().toString() +
+                        sp_car_card_letter.getSelectedItem().toString() + "-" +
+                        et_register_car_card.getText().toString();
                 String phone = et_register_phone.getText().toString();
                 String gender = "";
 
