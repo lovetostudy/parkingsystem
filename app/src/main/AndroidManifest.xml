@@ -49,6 +49,7 @@
             android:process=":remote" />
 
         <activity android:name=".activity.DriverMenu" />
+        <activity android:name=".activity.SettingActivity"></activity>
     </application>
 
 </manifest>

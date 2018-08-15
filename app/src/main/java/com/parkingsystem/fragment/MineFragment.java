@@ -24,6 +24,7 @@ import com.parkingsystem.activity.BaseActivity;
 import com.parkingsystem.activity.InfoActivity;
 import com.parkingsystem.activity.LoginActivity;
 import com.parkingsystem.activity.ParkingRecordActivity;
+import com.parkingsystem.activity.SettingActivity;
 import com.parkingsystem.activity.TopupRecordActivity;
 import com.parkingsystem.entity.Mine;
 import com.parkingsystem.entity.ParkingInfo;
@@ -298,7 +299,8 @@ public class MineFragment extends Fragment {
      * 进入设置界面
      */
     private void enterSetting() {
-        ToastUtils.show(getContext(), "enterSetting OK");
+       Intent intent = new Intent(getActivity(), SettingActivity.class);
+       startActivity(intent);
     }
 
     /**
