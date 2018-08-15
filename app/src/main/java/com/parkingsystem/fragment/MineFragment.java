@@ -214,7 +214,6 @@ public class MineFragment extends Fragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             leaveDialog.dismiss();
-                            ToastUtils.show(getContext(), "取消成功");
                         }
                     });
             leaveDialog.show();
@@ -285,7 +284,6 @@ public class MineFragment extends Fragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             leaveDialog.dismiss();
-                            ToastUtils.show(getContext(), "取消成功");
                         }
                     });
             leaveDialog.show();

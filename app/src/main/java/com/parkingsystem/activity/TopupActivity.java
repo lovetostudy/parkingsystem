@@ -21,6 +21,7 @@ import com.parkingsystem.utils.CommonRequest;
 import com.parkingsystem.utils.CommonResponse;
 import com.parkingsystem.utils.QueryUtils;
 import com.parkingsystem.utils.ResponseHandler;
+import com.parkingsystem.utils.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -33,7 +34,7 @@ public class TopupActivity extends BaseActivity {
     private String userName;
     private User user;
 
-    private int[] ints = {10, 20, 50, 100, 200, 300, 400, 500};
+    private int[] ints = {10, 20, 50, 100, 200, 300, 400, 500, 1000};
     private EditText etTopupMoney;
 
     @Override
@@ -46,22 +47,63 @@ public class TopupActivity extends BaseActivity {
         userName = queryUtils.queryUserName();
         user = queryUtils.queryUserInfo(userName);
 
-        TextView account = (TextView) findViewById(R.id.topup_account_value);
-        TextView balance = (TextView) findViewById(R.id.topup_balance_value);
+        TextView account = (TextView) findViewById(R.id.topup_account_name);
+        TextView balance = (TextView) findViewById(R.id.topup_balance_name);
+        TextView accountValue = (TextView) findViewById(R.id.topup_account_value);
+        TextView balanceValue = (TextView) findViewById(R.id.topup_balance_value);
         /*TextView textView = (TextView) findViewById(R.id.topup_price_name);*/
-        account.setText(user.username);
-        balance.setText(user.balance);
+        accountValue.setText(user.username);
+        balanceValue.setText(user.balance);
 
-        /*RecyclerView recyclerView = (RecyclerView) findViewById(R.id.price_label);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.price_label);
         TopupAdapter adapter = new TopupAdapter(mContext, getData());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        recyclerView.setAdapter(adapter);*/
-        /*adapter.replaceAll(getData());*/
-        etTopupMoney = (EditText) findViewById(R.id.et_topup_money);
+        recyclerView.setAdapter(adapter);
+        adapter.setmOnItemClickListener(new TopupAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                String price = "";
+                switch (getData().get(position).getPrice()) {
+                    case "10元":
+                        price = "10";
+                        break;
+                    case "20元":
+                        price = "20";
+                        break;
+                    case "50元":
+                        price = "50";
+                        break;
+                    case "100元":
+                        price = "100";
+                        break;
+                    case "200元":
+                        price = "200";
+                        break;
+                    case "300元":
+                        price = "300";
+                        break;
+                    case "400元":
+                        price = "400";
+                        break;
+                    case "500元":
+                        price = "500";
+                        break;
+                    case "1000元":
+                        price = "1000";
+                        break;
+                        default:
+                }
+                ToastUtils.show(mContext, price);
+            }
+        });
+
+
+
+        /*etTopupMoney = (EditText) findViewById(R.id.et_topup_money);
 
         btTopupTest = (Button) findViewById(R.id.bt_topup_test);
-        topupButtonListener();
+        topupButtonListener();*/
     }
 
     /**
@@ -75,7 +117,7 @@ public class TopupActivity extends BaseActivity {
             list.add(new TopupItem(TopupItem.TEXT_TYPE, price));
         }
         /*list.add(new TopupItem(TopupItem.EDIT_TYPE, null));
-*/
+         */
         return list;
     }
 
@@ -91,57 +133,70 @@ public class TopupActivity extends BaseActivity {
                 /**
                  * 充值前需进行数值判定，确保数值大于0
                  */
-                final CommonRequest request = new CommonRequest();
-                request.addRequestParam("name", userName);
-                request.addRequestParam("money", money);
+                if ("0".equals(money)) {
+                    final AlertDialog checkDialog = new AlertDialog.Builder(mContext).create();
+                    checkDialog.setTitle("充值提醒: ");
+                    checkDialog.setMessage("请输入正确的金额");
+                    checkDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    checkDialog.dismiss();
+                                }
+                            });
+                    checkDialog.show();
+                } else {
+                    final CommonRequest request = new CommonRequest();
+                    request.addRequestParam("name", userName);
+                    request.addRequestParam("money", money);
 
-                final AlertDialog topupDialog = new AlertDialog.Builder(mContext).create();
-                topupDialog.setTitle("充值提醒: ");
-                topupDialog.setMessage("是否充值: " + money + "元");
-                topupDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                topupDialog.dismiss();
+                    final AlertDialog topupDialog = new AlertDialog.Builder(mContext).create();
+                    topupDialog.setTitle("充值提醒: ");
+                    topupDialog.setMessage("是否充值: " + money + "元");
+                    topupDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    topupDialog.dismiss();
 
-                                sendHttpPostRequest(URL_CONTROLLER_TOPUP, request, new ResponseHandler() {
-                                    @Override
-                                    public void success(CommonResponse response) {
-                                        if (response != null) {
-                                            final AlertDialog topupDialog = new AlertDialog.Builder(mContext).create();
-                                            topupDialog.setTitle(response.getResMsg());
-                                            topupDialog.setMessage("您已成功充值：" + response.getDataList().get(0).get("money") + "元");
-                                            topupDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定",
-                                                    new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                                            topupDialog.dismiss();
-                                                            finish();
-                                                        }
-                                                    });
-                                            topupDialog.show();
+                                    sendHttpPostRequest(URL_CONTROLLER_TOPUP, request, new ResponseHandler() {
+                                        @Override
+                                        public void success(CommonResponse response) {
+                                            if (response != null) {
+                                                final AlertDialog topupDialog = new AlertDialog.Builder(mContext).create();
+                                                topupDialog.setTitle(response.getResMsg());
+                                                topupDialog.setMessage("您已成功充值：" + response.getDataList().get(0).get("money") + "元");
+                                                topupDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定",
+                                                        new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                                topupDialog.dismiss();
+                                                                finish();
+                                                            }
+                                                        });
+                                                topupDialog.show();
+                                            }
                                         }
-                                    }
 
-                                    @Override
-                                    public void error1(CommonResponse response) {
+                                        @Override
+                                        public void error1(CommonResponse response) {
 
-                                    }
+                                        }
 
-                                    @Override
-                                    public void error2(CommonResponse response) {
+                                        @Override
+                                        public void error2(CommonResponse response) {
 
-                                    }
+                                        }
 
-                                    @Override
-                                    public void fail(String failCode, String failMsg) {
+                                        @Override
+                                        public void fail(String failCode, String failMsg) {
 
-                                    }
-                                }, false);
-                            }
-                        });
-                topupDialog.show();
-
+                                        }
+                                    }, false);
+                                }
+                            });
+                    topupDialog.show();
+                }
 
 
             }

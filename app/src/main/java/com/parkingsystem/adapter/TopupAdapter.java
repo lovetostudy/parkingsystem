@@ -21,7 +21,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TopupAdapter extends RecyclerView.Adapter<TopupAdapter.ViewHloder>{
+public class TopupAdapter extends RecyclerView.Adapter<TopupAdapter.ViewHloder> implements View.OnClickListener{
 
     private int FLAG = 0;
 
@@ -29,19 +29,25 @@ public class TopupAdapter extends RecyclerView.Adapter<TopupAdapter.ViewHloder>{
 
     private ArrayList<TopupItem> arrayList;
 
-    public void replaceAll(ArrayList<TopupItem> list) {
-        arrayList.clear();
-        if (list != null && list.size() > 0) {
-            arrayList.addAll(list);
+    private OnItemClickListener mOnItemClickListener = null;
+
+    @Override
+    public void onClick(View v) {
+        if (mOnItemClickListener != null) {
+            //注意这里使用getTag方法获取position
+            mOnItemClickListener.onItemClick(v, (int) v.getTag());
         }
-        notifyDataSetChanged();
+    }
+
+    //define interface
+    public static interface OnItemClickListener {
+        void onItemClick(View view, int position);
     }
 
     public TopupAdapter(Context context, ArrayList<TopupItem> arrayList) {
         this.mContext = context;
         this.arrayList = arrayList;
     }
-
 
     static class ViewHloder extends RecyclerView.ViewHolder {
         TextView priceView;
@@ -72,19 +78,6 @@ public class TopupAdapter extends RecyclerView.Adapter<TopupAdapter.ViewHloder>{
                     } else {
                         lastPressIndex = position;
                     }
-                    notifyDataSetChanged();
-
-                    if (getAdapterPosition() != lastPressIndex) {
-                        priceView.setSelected(true);
-                        priceView.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.white));
-
-                    } else {
-                        priceView.setSelected(false);
-                        priceView.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.blue_500));
-                    }
-                    Log.e("TAG", "OneViewHolder: " + getAdapterPosition() + "  ok");
-                    Log.e("TAG", "OneViewHolder: " + lastPressIndex + "  ok");
-
                 }
 
             });
@@ -106,8 +99,12 @@ public class TopupAdapter extends RecyclerView.Adapter<TopupAdapter.ViewHloder>{
     public TopupAdapter.ViewHloder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case TopupItem.TEXT_TYPE:
-                return new TextViewHloder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.num_item, parent, false));
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.num_item, parent, false);
+                TextViewHloder viewHolder = new TextViewHloder(view);
+                // 将创建的view注册点击事件
+                view.setOnClickListener(this);
+                return viewHolder;
             case TopupItem.EDIT_TYPE:
                 return new TextViewHloder(LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.edit_item, parent, false));
@@ -119,6 +116,9 @@ public class TopupAdapter extends RecyclerView.Adapter<TopupAdapter.ViewHloder>{
     public void onBindViewHolder(@NonNull TopupAdapter.ViewHloder holder, int position) {
         TopupItem topupItem = arrayList.get(position);
         holder.priceView.setText(topupItem.getPrice());
+
+        // 将position保存在itemView的tag中,以便点击时获取
+        holder.itemView.setTag(position);
     }
 
     @Override
@@ -134,6 +134,11 @@ public class TopupAdapter extends RecyclerView.Adapter<TopupAdapter.ViewHloder>{
             return TopupItem.EDIT_TYPE;
         }
     }
+
+    public void setmOnItemClickListener(OnItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
+
 
 
 
