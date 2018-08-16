@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.parkingsystem.R;
 import com.parkingsystem.activity.BaseActivity;
@@ -24,6 +25,8 @@ import com.parkingsystem.utils.CommonResponse;
 import com.parkingsystem.utils.QueryUtils;
 import com.parkingsystem.utils.ResponseHandler;
 import com.parkingsystem.utils.ToastUtils;
+
+import org.w3c.dom.Text;
 
 import static com.parkingsystem.utils.Constant.URL_CONTROLLER_ENTER;
 import static com.parkingsystem.utils.Constant.URL_CONTROLLER_LEAVE;
@@ -40,6 +43,11 @@ public class ControllerFragment extends Fragment {
     private Button bt_controller_leave;
     private Button bt_controller_navigation;
     private Button bt_controller_topup;
+
+    private TextView tvMap;
+    private TextView tvTopup;
+    private TextView tvEnter;
+    private TextView tvLeave;
 
     String userName = "";
     private CommonRequest request = new CommonRequest();
@@ -71,15 +79,20 @@ public class ControllerFragment extends Fragment {
         bt_controller_navigation = (Button) view.findViewById(R.id.bt_controller_navigation);
         bt_controller_topup = (Button) view.findViewById(R.id.bt_controller_topup);
 
+        tvEnter = (TextView) view.findViewById(R.id.tv_controller_enter);
+        tvLeave = (TextView) view.findViewById(R.id.tv_controller_leave);
+        tvMap = (TextView) view.findViewById(R.id.tv_controller_map);
+        tvTopup = (TextView) view.findViewById(R.id.tv_controller_topup);
+
         FLAG = queryCarState();
         if ("1".equals(FLAG)) {
-            bt_controller_enter.setText("已进入停车场");
-            bt_controller_enter.setTextColor(Color.RED);
+            tvEnter.setText("已进入停车场");
+            tvEnter.setTextColor(Color.RED);
             bt_controller_enter.setEnabled(false);
         }
         if ("0".equals(FLAG)){
-            bt_controller_leave.setText("未停车");
-            bt_controller_leave.setTextColor(Color.RED);
+            tvLeave.setText("未停车");
+            tvLeave.setTextColor(Color.RED);
             bt_controller_leave.setEnabled(false);
         }
     }
@@ -114,11 +127,11 @@ public class ControllerFragment extends Fragment {
 
                                                         queryUtils.updateCarState("1", userName);
 
-                                                        bt_controller_enter.setText("已进入停车场");
-                                                        bt_controller_enter.setTextColor(Color.RED);
+                                                        tvEnter.setText("已进入停车场");
+                                                        tvEnter.setTextColor(Color.RED);
                                                         bt_controller_enter.setEnabled(false);
-                                                        bt_controller_leave.setText("结账离开");
-                                                        bt_controller_leave.setTextColor(Color.BLACK);
+                                                        tvLeave.setText("结账离开");
+                                                        tvLeave.setTextColor(Color.BLACK);
                                                         bt_controller_leave.setEnabled(true);
 
                                                         ToastUtils.show(getActivity(), "开门成功");
@@ -217,11 +230,11 @@ public class ControllerFragment extends Fragment {
                                                         topupDialog.show();
 
                                                         queryUtils.updateCarState("0", userName);
-                                                        bt_controller_enter.setText("进入");
-                                                        bt_controller_enter.setTextColor(Color.BLACK);
+                                                        tvEnter.setText("进入");
+                                                        tvEnter.setTextColor(Color.BLACK);
                                                         bt_controller_enter.setEnabled(true);
-                                                        bt_controller_leave.setText("未停车");
-                                                        bt_controller_leave.setTextColor(Color.RED);
+                                                        tvLeave.setText("未停车");
+                                                        tvLeave.setTextColor(Color.RED);
                                                         bt_controller_leave.setEnabled(false);
                                                     }
 

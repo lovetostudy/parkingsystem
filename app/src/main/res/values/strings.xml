@@ -3,7 +3,7 @@
     <string name="version_name">版本名称</string>
     <string name="get_in">进   入</string>
     <string name="leave">离   开</string>
-    <string name="navigate">停车场导航</string>
+    <string name="navigate">导   航</string>
     <string name="user_name">用 户 名</string>
     <string name="user_rigister_hint">请输入用户名,且不少于2位</string>
     <string name="password">密    码</string>
