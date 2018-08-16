@@ -132,6 +132,7 @@ public class LoginActivity extends BaseActivity {
                 if (response != null) {
                     User user = new User();
                     user.username = response.getDataList().get(0).get("user_name");
+                    user.password = response.getDataList().get(0).get("user_password");
                     user.realname = response.getDataList().get(0).get("user_realname");
                     user.gender = response.getDataList().get(0).get("user_gender");
                     user.card = response.getDataList().get(0).get("user_card");

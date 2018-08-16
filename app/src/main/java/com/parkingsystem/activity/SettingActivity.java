@@ -82,7 +82,6 @@ public class SettingActivity extends AppCompatActivity {
         final ArrayList<String> setting = new ArrayList<>();
         setting.add("检查更新");
         setting.add("关于我们");
-        setting.add("");
 
         SettingAdapter settingAdapter = new SettingAdapter(mContext, setting);
         ListView settingTv = (ListView) findViewById(R.id.setting_lv);

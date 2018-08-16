@@ -3,6 +3,7 @@ package com.parkingsystem.activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v7.widget.GridLayoutManager;
@@ -10,7 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.parkingsystem.R;
@@ -19,6 +21,7 @@ import com.parkingsystem.entity.TopupItem;
 import com.parkingsystem.entity.User;
 import com.parkingsystem.utils.CommonRequest;
 import com.parkingsystem.utils.CommonResponse;
+import com.parkingsystem.utils.PassView;
 import com.parkingsystem.utils.QueryUtils;
 import com.parkingsystem.utils.ResponseHandler;
 import com.parkingsystem.utils.ToastUtils;
@@ -35,6 +38,7 @@ public class TopupActivity extends BaseActivity {
     private User user;
 
     private int[] ints = {10, 20, 50, 100, 200, 300, 400, 500, 1000};
+
     private EditText etTopupMoney;
 
     @Override
@@ -51,7 +55,9 @@ public class TopupActivity extends BaseActivity {
         TextView balance = (TextView) findViewById(R.id.topup_balance_name);
         TextView accountValue = (TextView) findViewById(R.id.topup_account_value);
         TextView balanceValue = (TextView) findViewById(R.id.topup_balance_value);
-        /*TextView textView = (TextView) findViewById(R.id.topup_price_name);*/
+
+        RadioGroup rgPayWay = (RadioGroup) findViewById(R.id.rg_pay_way);
+
         accountValue.setText(user.username);
         balanceValue.setText(user.balance);
 
@@ -94,7 +100,10 @@ public class TopupActivity extends BaseActivity {
                         break;
                         default:
                 }
-                ToastUtils.show(mContext, price);
+
+                Intent intent = new Intent(mContext, PayActivity.class);
+                intent.putExtra("price", price);
+                startActivity(intent);
             }
         });
 
@@ -124,15 +133,15 @@ public class TopupActivity extends BaseActivity {
     /**
      * 设置充值点击事件
      */
-    private void topupButtonListener() {
+    /*private void topupButtonListener() {
         btTopupTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String money;
                 money = etTopupMoney.getText().toString();
-                /**
+                *//**
                  * 充值前需进行数值判定，确保数值大于0
-                 */
+                 *//*
                 if ("0".equals(money)) {
                     final AlertDialog checkDialog = new AlertDialog.Builder(mContext).create();
                     checkDialog.setTitle("充值提醒: ");
@@ -201,5 +210,7 @@ public class TopupActivity extends BaseActivity {
 
             }
         });
-    }
+    }*/
+
+
 }

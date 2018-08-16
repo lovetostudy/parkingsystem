@@ -9,6 +9,8 @@ public class User {
 
     public String username;   // 用户名
 
+    public String password;   // 密码
+
     public String realname;   // 真实姓名
 
     public String gender;     // 性别

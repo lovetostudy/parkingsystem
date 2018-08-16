@@ -14,9 +14,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/bg_fill_border"
             android:gravity="start"
             android:padding="10dp"
             android:text="label name"
+            android:textColor="@color/white"
             android:textSize="25sp" />
 
         <TextView
@@ -31,6 +33,12 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/underLine" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,9 +49,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/bg_fill_border"
             android:gravity="start"
             android:padding="10dp"
             android:text="label name"
+            android:textColor="@color/white"
             android:textSize="25sp" />
 
         <TextView
@@ -58,6 +68,12 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/underLine" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,9 +84,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/bg_fill_border"
             android:gravity="start"
             android:padding="10dp"
             android:text="label name"
+            android:textColor="@color/white"
             android:textSize="25sp" />
 
         <TextView
@@ -85,6 +103,12 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/underLine" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -95,9 +119,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/bg_fill_border"
             android:gravity="start"
             android:padding="10dp"
             android:text="label name"
+            android:textColor="@color/white"
             android:textSize="25sp" />
 
         <TextView
@@ -112,6 +138,12 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/underLine" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -122,9 +154,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/bg_fill_border"
             android:gravity="start"
             android:padding="10dp"
             android:text="label name"
+            android:textColor="@color/white"
             android:textSize="25sp" />
 
         <TextView
@@ -139,6 +173,12 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/underLine" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -149,9 +189,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/bg_fill_border"
             android:gravity="start"
             android:padding="10dp"
             android:text="label name"
+            android:textColor="@color/white"
             android:textSize="25sp" />
 
         <TextView
@@ -165,5 +207,11 @@
             android:textSize="25sp" />
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/underLine" />
 
 </LinearLayout>

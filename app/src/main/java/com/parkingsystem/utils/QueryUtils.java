@@ -33,6 +33,7 @@ public class QueryUtils {
 
         contentValues.put("_id", 1);
         contentValues.put("user_name", user.username);
+        contentValues.put("password", user.password);
         contentValues.put("real_name", user.realname);
         contentValues.put("gender", user.gender);
         contentValues.put("car_card", user.card);
@@ -336,5 +337,29 @@ public class QueryUtils {
         } else {
             return false;
         }
+    }
+
+    /**
+     * 查询用户的密码
+     *
+     * @param userName
+     * @return
+     */
+    public String queryPassword(String userName) {
+        SQLiteDatabase database = parkingSqliteOpenHelper.getReadableDatabase();
+
+        String password = "";
+
+        Cursor cursor = database.rawQuery("select password from" +
+                " user_info where user_name = ?", new String[]{userName});
+        if (cursor != null && cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                password = cursor.getString(0);
+            }
+            cursor.close();
+        }
+        database.close();
+
+        return password;
     }
 }
