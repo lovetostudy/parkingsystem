@@ -135,7 +135,6 @@ public class ControllerFragment extends Fragment {
                                                         bt_controller_leave.setEnabled(true);
 
                                                         ToastUtils.show(getActivity(), "开门成功");
-                                                        ToastUtils.show(getContext(), "进入停车场");
                                                     }
 
                                                     @Override
