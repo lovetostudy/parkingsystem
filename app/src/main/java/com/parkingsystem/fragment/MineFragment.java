@@ -156,6 +156,12 @@ public class MineFragment extends Fragment {
 
             updateParkingRecord(username);
             updateTopupRecord(username);
+        } else {
+            headIcon.setImageDrawable(getResources().getDrawable(R.drawable.before));
+            tvLogin.setText("点击登录");
+            tvLogin.setTextColor(Color.BLACK);
+            headIcon.setEnabled(true);
+            tvLogin.setEnabled(true);
         }
     }
 
@@ -303,6 +309,8 @@ public class MineFragment extends Fragment {
 
     /**
      * 更新本地停车记录
+     *
+     * @param userName
      */
     private void updateParkingRecord(String userName) {
         // 向服务器查询并写入本地数据库
@@ -354,6 +362,11 @@ public class MineFragment extends Fragment {
         }
     }
 
+    /**
+     * 更新充值记录
+     *
+     * @param userName
+     */
     private void updateTopupRecord(String userName) {
         // 向服务器查询并写入本地数据库
         final QueryUtils queryUtils = new QueryUtils(getContext());
