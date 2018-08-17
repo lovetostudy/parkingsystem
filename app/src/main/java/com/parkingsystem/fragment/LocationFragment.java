@@ -81,6 +81,7 @@ public class LocationFragment extends Fragment {
                         @Override
                         public void success(CommonResponse response) {
                             int number = 0;
+                            refleshCarView();
 
                             for (int i = 0; i < response.getDataList().size(); i++) { // 0表示空余
                                 if ("0".equals(response.getDataList().get(i).get("park_state"))) {
@@ -107,6 +108,15 @@ public class LocationFragment extends Fragment {
                         }
                     }, false);
         }
+    }
+
+    private void refleshCarView() {
+        carOne.setVisibility(View.VISIBLE);
+        carTwo.setVisibility(View.VISIBLE);
+        carThree.setVisibility(View.VISIBLE);
+        carFour.setVisibility(View.VISIBLE);
+        carFive.setVisibility(View.VISIBLE);
+        carSix.setVisibility(View.VISIBLE);
     }
 
     /**
