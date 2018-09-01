@@ -13,6 +13,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class HttpPostTask extends AsyncTask<String, String, String> {
 
     // BaseActivity 中基础问题的处理 handler
@@ -22,12 +28,12 @@ public class HttpPostTask extends AsyncTask<String, String, String> {
     private ResponseHandler rHandler;
 
     // 请求类对象
-    private CommonRequest request;
+    private CommonRequest mRequest;
 
 
-    public HttpPostTask(CommonRequest request, Handler mHandler,
+    public HttpPostTask(CommonRequest mRequest, Handler mHandler,
                         ResponseHandler rHandler) {
-        this.request = request;
+        this.mRequest = mRequest;
         this.mHandler = mHandler;
         this.rHandler = rHandler;
     }
@@ -38,7 +44,26 @@ public class HttpPostTask extends AsyncTask<String, String, String> {
         try {
             URL url = new URL(params[0]);
 
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            /* OKHttpClient to link server*/
+            OkHttpClient okHttpClient = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            String jsonStr = mRequest.getJsonStr();
+            RequestBody body = RequestBody.create(JSON, jsonStr);
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(body)
+                    .build();
+            Response response = okHttpClient.newCall(request).execute();
+            if (response.isSuccessful()) {
+                return response.body().string();
+            } else {
+                // 异常情况
+                mHandler.obtainMessage(Constant.HANDLER_HTTP_RECIVE_FAIL,
+                        "Unexpected code " + response).sendToTarget();
+            }
+
+            /* HttpURLConnection to link server*/
+            /*HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
             connection.setRequestMethod("POST");
@@ -50,7 +75,6 @@ public class HttpPostTask extends AsyncTask<String, String, String> {
             DataOutputStream out = new DataOutputStream(connection.getOutputStream());
             String jsonStr = request.getJsonStr();
             out.write(jsonStr.getBytes());
-
             out.flush();
             out.close();
 
@@ -72,7 +96,7 @@ public class HttpPostTask extends AsyncTask<String, String, String> {
                 // 异常情况
                 mHandler.obtainMessage(Constant.HANDLER_HTTP_RECIVE_FAIL,
                         "[" + responseCode + "]" + connection.getResponseMessage()).sendToTarget();
-            }
+            }*/
         } catch (IOException e) {
             // 网路请求过程中发生IO异常
             mHandler.obtainMessage(Constant.HANDLER_HTTP_SEND_FAIL,

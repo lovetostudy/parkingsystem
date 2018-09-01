@@ -43,6 +43,7 @@ public class InfoActivity extends BaseActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 clearData();
             }
         });
